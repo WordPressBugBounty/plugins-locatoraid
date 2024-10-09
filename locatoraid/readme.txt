@@ -3,7 +3,7 @@ Plugin URI: https://www.locatoraid.com
 Contributors: Plainware
 Tags: map, store locator, store finder, google maps, zip code
 License: GPLv2 or later
-Stable tag: 3.9.46
+Stable tag: 3.9.47
 Requires at least: 3.3
 Tested up to: 6.6
 Requires PHP: 5.3
@@ -88,6 +88,9 @@ Go to WordPress admin -> Appearance -> Customize, then click Additional CSS, and
 The upgrade is simple - upload everything up again to your `/wp-content/plugins/` directory, then go to the Locatoraid menu item in the admin panel. It will automatically start the upgrade process if any needed.
 
 == Changelog ==
+
+= 3.9.47 =
+* Added an option to delete multiple locations through the REST API.
 
 = 3.9.46 =
 * BUG: rendering of HTML templates used to display results in the front end might have failed with certain themes or other plugins.

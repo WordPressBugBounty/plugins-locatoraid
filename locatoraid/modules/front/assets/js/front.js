@@ -559,7 +559,8 @@ this.list = function( $this )
 	self.template = elem.value;
 
 	self.template = self.template.replaceAll( '“', '"' ); 
-	self.template = self.template.replaceAll( '”', '"' ); 
+	self.template = self.template.replaceAll( '”', '"' );
+// console.log( self.template );
 
 	self.template_no_results = jQuery( '#' + html_id + '_template_no_results' ).html();
 	elem.innerHTML = self.template_no_results;

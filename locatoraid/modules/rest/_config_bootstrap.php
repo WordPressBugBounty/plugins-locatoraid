@@ -80,7 +80,8 @@ class Rest_Plugin_LC_HC_MVC extends _HC_MVC
 				)
 		);
 
-		register_rest_route( 'locatoraid/v3', '/locations/(?P<id>\d+)',
+		// register_rest_route( 'locatoraid/v3', '/locations/(?P<id>\d+)',
+		register_rest_route( 'locatoraid/v3', '/locations/(?P<id>[\d\-]+)',
 			array(
 				array(
 					'methods'	=> WP_REST_Server::READABLE,
@@ -227,26 +228,49 @@ class Rest_Plugin_LC_HC_MVC extends _HC_MVC
 
 	public function locationsIdDelete( $request )
 	{
-		$command = $this->hcapp->make('/locations/commands/read');
-
 		$id = $request['id'];
-		$args[] = $id;
+		$listId = explode( '-', $id );
 
-		$model = $command
-			->execute( $args )
-			;
+		$commandRead = $this->hcapp->make('/locations/commands/read');
 
-		if( ! $model ){
+		$listModelId = [];
+		foreach( $listId as $id ){
+			$args = array();
+			$args[] = $id;
+			$model = $commandRead
+				->execute( $args )
+				;
+
+			if( $model ){
+				$listModelId[] = $id;
+			}
+		}
+
+		if( ! $listModelId ){
 			return new WP_Error( 'no_location', 'Invalid Location', array('status' => 404) );
 		}
 
-		$command = $this->hcapp->make('/locations/commands/delete');
-		$response = $command
-			->execute( $id )
-			;
+		$commandDelete = $this->hcapp->make('/locations/commands/delete');
 
-		if( isset($response['errors']) ){
-			return new WP_Error( 'error', $response['errors'], array('status' => 500) );
+		$errors = [];
+		$ok = false;
+
+		foreach( $listModelId as $id ){
+			$response = $commandDelete
+				->execute( $id )
+				;
+
+			if( isset($response['errors']) ){
+				$errors[] = $response['errors'];
+				return new WP_Error( 'error', $response['errors'], array('status' => 500) );
+			}
+			else {
+				$ok = true;
+			}
+		}
+
+		if( (! $ok) && $errors ){
+			return new WP_Error( 'error', $errors, array('status' => 500) );
 		}
 
 		return;

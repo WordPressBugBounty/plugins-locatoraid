@@ -163,8 +163,26 @@ X-WP-Locatoraid-AuthCode [required]
 </p>
 
 <p>
+You can also supply the list of ids separated by hyphen (-).
+</p>
+
+<?php
+$url1 = '/locatoraid/v3/locations/123';
+$fullUrl1 = get_rest_url( NULL, $url1 );
+?>
+<p>
 <code>
-DELETE <?php echo $fullUrl; ?>
+DELETE <?php echo $fullUrl1; ?>
+</code>
+</p>
+
+<?php
+$url2 = '/locatoraid/v3/locations/123-234-345';
+$fullUrl2 = get_rest_url( NULL, $url2 );
+?>
+<p>
+<code>
+DELETE <?php echo $fullUrl2; ?>
 </code>
 </p>
 

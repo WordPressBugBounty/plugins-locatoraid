@@ -10,10 +10,10 @@ class Front_View_List_Template_LC_HC_MVC extends _HC_MVC
 		$fields = $p->fields_labels();
 
 		$out[] = '{{priority}}';
-		$out[] = 	'<!-- highlight featured listing -->';
+		// $out[] = 	'<!-- highlight featured listing -->';
 		$out[] = 	'<div class="hc-p2 hc-border hc-rounded hc-mb1 hc-border-green lpr-location lpr-location-inlist lpr-location-featured">';
 		$out[] = '{{:priority}}';
-		$out[] = 	'<!-- regular listing -->';
+		// $out[] = 	'<!-- regular listing -->';
 		$out[] = 	'<div class="hc-p2 hc-border hc-rounded hc-mb1 lpr-location lpr-location-inlist">';
 		$out[] = '{{/priority}}';
 		$out[] = '';
