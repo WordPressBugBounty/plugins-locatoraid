@@ -706,7 +706,7 @@ class Input_Lib_HC_MVC extends _HC_MVC
 	{
 		if ( ! preg_match("/^[a-z0-9:_\/\-\~]+$/i", $str))
 		{
-			exit('Disallowed Key Characters on: ' . '"' . $str . '"' . '<br>');
+			exit('Disallowed Key Characters on: ' . '"' . esc_html($str) . '"' . '<br>');
 		}
 
 		return $str;
