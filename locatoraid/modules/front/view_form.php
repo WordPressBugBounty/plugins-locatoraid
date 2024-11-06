@@ -185,6 +185,7 @@ class Front_View_Form_LC_HC_MVC extends _HC_MVC
 		$form_attr = array(
 			'id'				=> $search_form_id,
 			'action'			=> $link,
+			'data-action'	=> $link,
 			'data-radius-link'	=> $radius_link,
 			'class'				=> 'hc-mb2 ' . $search_form_class,
 			);

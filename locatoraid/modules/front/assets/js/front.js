@@ -218,7 +218,8 @@ this.form = function( $this )
 		hc2_set_loader( $this );
 		var search_string = search.search;
 		search_string = search_string + '';
-		var search_url = $this.attr('action');
+		// var search_url = $this.attr('action');
+		var search_url = $this.attr('data-action');
 
 		var knowCoord = { lat: '', lng: '' };
 		if( search.hasOwnProperty('locatelat') ){
