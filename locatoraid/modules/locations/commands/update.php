@@ -11,19 +11,19 @@ class Locations_Commands_Update_LC_HC_MVC extends _HC_MVC
 
 	public function validators( $id )
 	{
-		$return = array();
+		$ret = array();
 
-		$return['name'] = array(
+		$ret['name'] = array(
 			$this->app->make('/validate/required'),
 			$this->app->make('/validate/maxlen')
 				->params( 250 ),
 			);
 
-		$return = $this->app
-			->after( array($this, __FUNCTION__), $return, $id )
+		$ret = $this->app
+			->after( array($this, __FUNCTION__), $ret, $id )
 			;
 
-		return $return;
+		return $ret;
 	}
 
 	public function execute( $id, $values = array() )

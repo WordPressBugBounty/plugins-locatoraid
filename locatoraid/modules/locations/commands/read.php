@@ -1,18 +1,18 @@
 <?php if (! defined('ABSPATH')) exit; // Exit if accessed directly
 class Locations_Commands_Read_LC_HC_MVC extends _HC_MVC
 {
-	public function args( $return = array() )
+	public function args( $ret = array() )
 	{
-		if( ! is_array($return) ){
-			$return = array( $return );
+		if( ! is_array($ret) ){
+			$ret = array( $ret );
 		}
 
-		// $return[] = array('sort', 'name', 'asc');
+		// $ret[] = array('sort', 'name', 'asc');
 
-		$return = $this->app
-			->after( array($this, __FUNCTION__), $return )
+		$ret = $this->app
+			->after( array($this, __FUNCTION__), $ret )
 			;
-		return $return;
+		return $ret;
 	}
 
 	public function execute( $args = array() )
@@ -148,13 +148,13 @@ class Locations_Commands_Read_LC_HC_MVC extends _HC_MVC
 			$args['SORT'] = array_merge( $args['SORT'], array(array('name', 'asc')) );
 		}
 
-		$return = $command
+		$ret = $command
 			->execute( $args )
 			;
 
-		$return = $this->app
-			->after( $this, $return )
+		$ret = $this->app
+			->after( $this, $ret )
 			;
-		return $return;
+		return $ret;
 	}
 }

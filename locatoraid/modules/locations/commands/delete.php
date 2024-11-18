@@ -6,13 +6,13 @@ class Locations_Commands_Delete_LC_HC_MVC extends _HC_MVC
 		$command = $this->app->make('/commands/delete')
 			->set_table('locations')
 			;
-		$return = $command
+		$ret = $command
 			->execute( $id )
 			;
 
-		$return = $this->app
-			->after( $this, $return )
+		$ret = $this->app
+			->after( $this, $ret )
 			;
-		return $return;
+		return $ret;
 	}
 }

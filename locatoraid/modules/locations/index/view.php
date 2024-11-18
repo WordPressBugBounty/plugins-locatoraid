@@ -87,15 +87,6 @@ class Locations_Index_View_LC_HC_MVC extends _HC_MVC
 
 	// add bulk form
 		if( $rows ){
-			// $helper = $this->app->make('/form/helper');
-			// $bulk_form = $this->bulk_form();
-
-			// $out = $this->app->make('/html/list')
-				// ->set_gutter(1)
-				// ->add( $bulk_form )
-				// ->add( $out )
-				// ;
-
 			$link = $this->app->make('/http/uri')
 				->url('/locations/bulk')
 				;
@@ -113,10 +104,6 @@ class Locations_Index_View_LC_HC_MVC extends _HC_MVC
 			->add( $search_view )
 			->add( $out )
 			;
-
-		// $submenu
-			// ->add( $search_view->render($search) )
-			// ;
 
 		return $out;
 	}
@@ -221,18 +208,6 @@ class Locations_Index_View_LC_HC_MVC extends _HC_MVC
 			->add( $address_view )
 			->add( $id_view )
 			;
-
-	// add checkbox
-		// $checkbox = $this->app->make('/form/checkbox')
-			// ->set_value( $e['id'] )
-			// ->render( 'id[]' )
-			// ;
-
-		// $title_view = $this->app->make('/html/list-inline')
-			// ->set_gutter(1)
-			// ->add( $checkbox )
-			// ->add( $title_view )
-			// ;
 
 		$title_view = $this->app->make('/html/element')->tag('div')
 			->add( $title_view )

@@ -13,7 +13,6 @@ class Locations_Delete_Controller_LC_HC_MVC extends _HC_MVC
 			exit;
 		}
 
-	// OK
 		$redirect_to = $this->app->make('/http/uri')
 			->url('/locations')
 			;
