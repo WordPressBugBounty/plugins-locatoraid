@@ -309,7 +309,8 @@ class Session_Lib_HC_MVC extends _HC_MVC
 		// Kill the cookie
 		@setcookie(
 					$this->sess_cookie_name,
-					addslashes(serialize(array())),
+					// addslashes(serialize(array())),
+					addslashes(json_encode(array())),
 					($this->now - 31500000),
 					$this->cookie_path,
 					$this->cookie_domain,
@@ -678,7 +679,9 @@ class Session_Lib_HC_MVC extends _HC_MVC
 			}
 		}
 
-		return serialize($data);
+		// return serialize($data);
+		$ret = json_encode( $data );
+		return $ret;
 	}
 
 	// --------------------------------------------------------------------
@@ -695,7 +698,8 @@ class Session_Lib_HC_MVC extends _HC_MVC
 	 */
 	function _unserialize($data)
 	{
-		$data = @unserialize( $this->strip_slashes($data) );
+		// $data = @unserialize( $this->strip_slashes($data) );
+		$data = @json_decode( $this->strip_slashes($data), true );
 
 		if (is_array($data))
 		{
