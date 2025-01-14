@@ -23,30 +23,32 @@ jQuery(document).on('hc2-gmaps-loaded', function()
 
 	map.setCenter( location_position );
 
-	var marker = new google.maps.Marker({
+	var markerConf = {
 		map: map,
 		position: location_position,
 		draggable: false,
-		visible:true,
-	});
+	};
+	var marker = new google.maps.marker.AdvancedMarkerElement( markerConf );
 
 	if( can_edit ){
-		marker.draggable = true;
+		marker.gmpDraggable = true;
 	}
 
 	if( custom_icon ){
-		marker.setIcon( custom_icon );
+		const markerCustomIcon = document.createElement('img');
+		markerCustomIcon.src = custom_icon;
+		marker.content = markerCustomIcon;
 	}
 
 	function update_marker_position( latLng )
 	{
-		$map.closest('.hcj2-container').find('input[name\$=latitude]').val( latLng.lat() );
-		$map.closest('.hcj2-container').find('input[name\$=longitude]').val( latLng.lng() );
+		$map.closest('.hcj2-container').find('input[name\$=latitude]').val( latLng.lat );
+		$map.closest('.hcj2-container').find('input[name\$=longitude]').val( latLng.lat );
 	}
 
 	if( can_edit ){
 		google.maps.event.addListener( marker, 'drag', function() {
-			update_marker_position( marker.getPosition() );
+			update_marker_position( marker.position );
 		});
 
 		var try_address = $map.data('address');
@@ -87,7 +89,7 @@ jQuery(document).on('hc2-gmaps-loaded', function()
 				var newPos = new google.maps.LatLng( results.lat, results.lng );
 
 				map.setCenter( newPos );
-				marker.setPosition( newPos );
+				marker.position = newPos;
 				update_marker_position( newPos );
 			}
 			else {

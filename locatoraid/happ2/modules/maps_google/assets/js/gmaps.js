@@ -12,6 +12,8 @@ window.addEventListener('load', function()
 			}
 		}
 		this_js_url += '&callback=' + 'hc2_gmaps_callback';
+		this_js_url += '&libraries=marker';
+		this_js_url += '&loading=async';
 	}
 
 	if( (typeof google === 'object') && (typeof google.maps === 'object') ){
@@ -19,13 +21,16 @@ window.addEventListener('load', function()
 		return;
 	}
 	else {
+		// console.log( this_js_url );
 		jQuery.getScript( this_js_url, function() {
-			jQuery(document).trigger('hc2-gmaps-loaded');
+			// jQuery(document).trigger('hc2-gmaps-loaded');
 		});
 	}
 });
 
-function hc2_gmaps_callback(){}
+function hc2_gmaps_callback(){
+	jQuery(document).trigger('hc2-gmaps-loaded');
+}
 
 function hc2_init_gmaps( map_div )
 {
@@ -37,6 +42,7 @@ function hc2_init_gmaps( map_div )
 	var map = new google.maps.Map( 
 		document.getElementById(map_div), {
 			zoom: 12,
+			mapId: map_div,
 			mapTypeId: google.maps.MapTypeId.ROADMAP,
 			scrollwheel: scrollwheel
 		}
@@ -58,6 +64,7 @@ function hc2_init_gmaps( map_div )
 			map.setOptions( valid_options );
 		}
 		else {
+			// console.log( more_options );
 			console.log( 'bad map options' );
 		}
 	}

@@ -803,8 +803,7 @@ this.map = function( $this )
 	}
 	this.max_zoom_no_entries = 4;
 
-	this.infowindow = new google.maps.InfoWindow({
-		});
+	this.infowindow = new google.maps.InfoWindow({});
 
 	this.trigger = function( what, payload )
 	{
@@ -848,16 +847,17 @@ this.map = function( $this )
 		if( coord.length > 1 ){
 			search_coordinates = new google.maps.LatLng(coord[0], coord[1]);
 
-			var searched_marker = new google.maps.Marker({
+			const pinSearched = new google.maps.marker.PinElement({
+				scale: 0.75,
+				background: "#000000",
+				borderColor: "#FFFFFF",
+				glyphColor: "#FFFFFF",
+			});
+
+			var searched_marker = new google.maps.marker.AdvancedMarkerElement({
 				position: search_coordinates,
-				icon: {
-					path: google.maps.SymbolPath.CIRCLE,
-					scale: 6
-					},
-				// icon: "//maps.google.com/mapfiles/arrow.png",
-				draggable: false,
+				content: pinSearched.element,
 				map: this.map,
-				title: coord[2],
 			});
 
 			self.markers[-1] = searched_marker;
@@ -912,33 +912,36 @@ this.map = function( $this )
 				if( ! hideLocTitle ){
 					location_marker.title += ", " + this_loc['name'];
 				}
-				location_marker.setLabel( '' + location_marker.locationId.length );
+				// location_marker.setLabel( '' + location_marker.locationId.length );
 			}
 			else {
-				var location_marker = new google.maps.Marker( {
+				var location_marker = new google.maps.marker.AdvancedMarkerElement({
 					map: self.map,
 					position: location_position,
 					title: hideLocTitle ? null : this_loc['name'],
-					draggable: false,
-					visible: true,
-					animation: google.maps.Animation.DROP,
-					locationId: [],
-					});
+					// animation: google.maps.Animation.DROP,
+				});
+				location_marker.locationId = [ id ];
 
-				location_marker.locationId.push( id );
 				self.markersByPosition[ positionIndex ] = location_marker;
 			}
 
+			let markerCustomIconUri = '';
 			if( typeof locatoraidMapIcon !== 'undefined' ){
-				location_marker.setIcon( locatoraidMapIcon );
+				markerCustomIconUri = locatoraidMapIcon;
 			}
 			else if( this_loc['mapicon'] && this_loc['mapicon'].length ){
-				location_marker.setIcon( this_loc['mapicon'] );
+				markerCustomIconUri = this_loc['mapicon'];
 			}
 			else {
 				if( hc2_gmaps_vars.hasOwnProperty('icon') && hc2_gmaps_vars['icon'] ){
-					location_marker.setIcon( hc2_gmaps_vars['icon'] );
+					markerCustomIconUri = hc2_gmaps_vars['icon'];
 				}
+			}
+			if( markerCustomIconUri ){
+				const markerCustomIcon = document.createElement('img');
+				markerCustomIcon.src = markerCustomIconUri;
+				location_marker.content = markerCustomIcon;
 			}
 
 			location_marker.addListener( 'click', function(){
@@ -1112,14 +1115,10 @@ this.map = function( $this )
 				};
 
 				thisLocsView.push( $thisLocView );
-				// thisLocsView.push( thisLocView );
 				new locatoraidEvent( 'locatoraid-render-on-map', $thisLocView );
 			}
 
-			// thisLocsView = thisLocsView.join('');
-			// this.infowindow.setContent( thisLocsView );
 			$thisLocView.render();
-			// this.infowindow.open( self.map, thisMarker );
 		}
 		else {
 			var thisMarker = self.markers[ thisId ];
@@ -1139,9 +1138,6 @@ this.map = function( $this )
 			}
 
 			$thisLocView.render();
-
-			// this.infowindow.setContent( $thisLocView );
-			// this.infowindow.setContent( thisLocView );
 		}
 
 		var inCluster = false;

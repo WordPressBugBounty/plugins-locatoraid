@@ -71,11 +71,9 @@ console.log( save_url );
 							);
 						map.setCenter( location_position );
 
-						var marker = new google.maps.Marker({
+						var marker = new google.maps.marker.AdvancedMarkerElement({
 							map: map,
 							position: location_position,
-							draggable: false,
-							visible: true,
 						});
 					})
 					.error( function(){
