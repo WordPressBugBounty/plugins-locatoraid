@@ -95,11 +95,15 @@ class Front_View_LC_HC_MVC extends _HC_MVC
 			}
 		}
 
+		$async = $app_settings->get('maps_google:async');
+		$async = $async ? true : false;
+
 		$params = array(
 			'api_key'		=> $api_key,
 			'language'		=> $language,
 			'map_style'		=> $map_style,
 			'scrollwheel'	=> $scrollwheel,
+			'async'			=> $async,
 			'more_options'	=> $more_options,
 			'icon'			=> $icon,
 			);

@@ -13,7 +13,14 @@ window.addEventListener('load', function()
 		}
 		this_js_url += '&callback=' + 'hc2_gmaps_callback';
 		this_js_url += '&libraries=marker';
-		this_js_url += '&loading=async';
+
+		var asyncLoading = false;
+		if( hc2_gmaps_vars.hasOwnProperty('async') && (hc2_gmaps_vars['async']) ){
+			asyncLoading = true;
+		}
+		if( asyncLoading ){
+			this_js_url += '&loading=async';
+		}
 	}
 
 	if( (typeof google === 'object') && (typeof google.maps === 'object') ){

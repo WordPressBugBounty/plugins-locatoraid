@@ -25,6 +25,7 @@ $config['after']['/app/enqueuer'][] = function( $app, $enqueuer )
 	$map_style = $app_settings->get('maps_google:map_style');
 	$scrollwheel = $app_settings->get('maps_google:scrollwheel');
 	$scrollwheel = $scrollwheel ? TRUE : FALSE;
+
 	$more_options = $app_settings->get('maps_google:more_options');
 
 	$icon = '';
@@ -37,10 +38,14 @@ $config['after']['/app/enqueuer'][] = function( $app, $enqueuer )
 		}
 	}
 
+	$async = $app_settings->get('maps_google:async');
+	$async = $async ? true : false;
+
 	$params = array(
 		'api_key'		=> $api_key,
 		'map_style'		=> $map_style,
 		'scrollwheel'	=> $scrollwheel,
+		'async'			=> $async,
 		'more_options'	=> $more_options,
 		'icon'			=> $icon,
 		);

@@ -73,6 +73,18 @@ class Maps_Google_Conf_Form_HC_MVC extends _HC_MVC
 				'label'	=> __('Map Language Code', 'locatoraid'),
 				'help'	=> $lang_help
 				);
+
+			$async_help = __('With turned on it may improve performance but may have issues with caching plugins', 'locatoraid');
+			// $return['maps_google:async'] =
+				// $this->app->make('/form/checkbox')
+					// ->set_label( __('Async loading of Google Maps', 'locatoraid') )
+				// ;
+
+			$return['maps_google:async'] = array(
+				'input' => $this->app->make('/form/checkbox'),
+				'label'	=> __('Async loading of Google Maps', 'locatoraid'),
+				'help'	=> $async_help
+				);
 		}
 
 		$return = $this->app
