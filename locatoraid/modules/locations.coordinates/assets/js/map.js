@@ -28,7 +28,18 @@ jQuery(document).on('hc2-gmaps-loaded', function()
 		position: location_position,
 		draggable: false,
 	};
-	var marker = new google.maps.marker.AdvancedMarkerElement( markerConf );
+
+	if( map.useAdvancedMarkers ){
+		var marker = new google.maps.marker.AdvancedMarkerElement( markerConf );
+	}
+	else {
+		var marker = new google.maps.Marker({
+			map: map,
+			position: location_position,
+			draggable: false,
+			visible: true,
+		});
+	}
 
 	if( can_edit ){
 		marker.gmpDraggable = true;

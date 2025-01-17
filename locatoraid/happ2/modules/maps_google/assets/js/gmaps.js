@@ -14,6 +14,10 @@ window.addEventListener('load', function()
 		this_js_url += '&callback=' + 'hc2_gmaps_callback';
 		this_js_url += '&libraries=marker';
 
+		// var map_style = hc2_gmaps_vars['map_style'];
+		// if( ! map_style.length ){
+		// }
+
 		var asyncLoading = false;
 		if( hc2_gmaps_vars.hasOwnProperty('async') && (hc2_gmaps_vars['async']) ){
 			asyncLoading = true;
@@ -28,7 +32,6 @@ window.addEventListener('load', function()
 		return;
 	}
 	else {
-		// console.log( this_js_url );
 		jQuery.getScript( this_js_url, function() {
 			// jQuery(document).trigger('hc2-gmaps-loaded');
 		});
@@ -39,28 +42,36 @@ function hc2_gmaps_callback(){
 	jQuery(document).trigger('hc2-gmaps-loaded');
 }
 
-function hc2_init_gmaps( map_div )
+function hc2_init_gmaps( map_div, useMapId = true )
 {
 	var scrollwheel = true;
 	if( hc2_gmaps_vars.hasOwnProperty('scrollwheel') && (! hc2_gmaps_vars['scrollwheel']) ){
 		scrollwheel = false;
 	}
 
-	var map = new google.maps.Map( 
-		document.getElementById(map_div), {
-			zoom: 12,
-			mapId: map_div,
-			mapTypeId: google.maps.MapTypeId.ROADMAP,
-			scrollwheel: scrollwheel
-		}
-	);
-
 	var map_style = hc2_gmaps_vars['map_style'];
+
+	var mapAttr = {
+		zoom: 12,
+		mapTypeId: google.maps.MapTypeId.ROADMAP,
+		scrollwheel: scrollwheel
+	};
+
+	if( useMapId ){
+		if( ! map_style.length ){
+			mapAttr.mapId = map_div;
+		}
+	}
+
+	var map = new google.maps.Map( document.getElementById(map_div), mapAttr );
+	map.useAdvancedMarkers = true;
+
 	if( map_style.length ){
 		var valid_style = hc2_try_parse_json( map_style );
 		if( valid_style ){
-			map.setOptions({ styles: valid_style });
+			map.setOptions( {styles: valid_style} );
 		}
+		map.useAdvancedMarkers = false;
 	}
 
 	var more_options = hc2_gmaps_vars['more_options'];

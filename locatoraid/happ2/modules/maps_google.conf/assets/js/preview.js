@@ -5,13 +5,13 @@ jQuery(document).on('hc2-gmaps-loaded', function()
 	var self = this;
 
 	var map_div = "hclc_map";
-	var map = hc2_init_gmaps( map_div );
+	var map = hc2_init_gmaps( map_div, false );
 	var $map = jQuery('#' + map_div);
 
 	var location_position = new google.maps.LatLng( 
 		39.7581599,
 		-104.927918
-		);
+	);
 
 	map.setCenter( location_position );
 

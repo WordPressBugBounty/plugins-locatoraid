@@ -71,10 +71,20 @@ console.log( save_url );
 							);
 						map.setCenter( location_position );
 
-						var marker = new google.maps.marker.AdvancedMarkerElement({
-							map: map,
-							position: location_position,
-						});
+						if( map.useAdvancedMarkers ){
+							var marker = new google.maps.marker.AdvancedMarkerElement({
+								map: map,
+								position: location_position,
+							});
+						}
+						else {
+							var marker = new google.maps.Marker({
+								map: map,
+								position: location_position,
+								draggable: false,
+								visible: true,
+							});
+						}
 					})
 					.error( function(){
 						$map.append( 'ERROR' + '<br/>' );

@@ -854,11 +854,23 @@ this.map = function( $this )
 				glyphColor: "#FFFFFF",
 			});
 
-			var searched_marker = new google.maps.marker.AdvancedMarkerElement({
-				position: search_coordinates,
-				content: pinSearched.element,
-				map: this.map,
-			});
+			if( this.map.useAdvancedMarkers ){
+				var searched_marker = new google.maps.marker.AdvancedMarkerElement({
+					position: search_coordinates,
+					content: pinSearched.element,
+					map: this.map,
+				});
+			}
+			else {
+				var searched_marker = new google.maps.Marker({
+					position: search_coordinates,
+					icon: { path: google.maps.SymbolPath.CIRCLE, scale: 6 },
+					// icon: "//maps.google.com/mapfiles/arrow.png",
+					draggable: false,
+					map: this.map,
+					title: coord[2],
+				});
+			}
 
 			self.markers[-1] = searched_marker;
 		}
@@ -915,14 +927,25 @@ this.map = function( $this )
 				// location_marker.setLabel( '' + location_marker.locationId.length );
 			}
 			else {
-				var location_marker = new google.maps.marker.AdvancedMarkerElement({
-					map: self.map,
-					position: location_position,
-					title: hideLocTitle ? null : this_loc['name'],
-					// animation: google.maps.Animation.DROP,
-				});
-				location_marker.locationId = [ id ];
+				if( self.map.useAdvancedMarkers ){
+					var location_marker = new google.maps.marker.AdvancedMarkerElement({
+						map: self.map,
+						position: location_position,
+						title: hideLocTitle ? null : this_loc['name'],
+					});
+				}
+				else {
+					var location_marker = new google.maps.Marker( {
+						map: self.map,
+						position: location_position,
+						title: hideLocTitle ? null : this_loc['name'],
+						draggable: false,
+						visible: true,
+						animation: google.maps.Animation.DROP,
+					});
+				}
 
+				location_marker.locationId = [ id ];
 				self.markersByPosition[ positionIndex ] = location_marker;
 			}
 
