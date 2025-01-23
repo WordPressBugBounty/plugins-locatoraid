@@ -3,7 +3,7 @@ Plugin URI: https://www.locatoraid.com
 Contributors: Plainware
 Tags: map, store locator, store finder, google maps, zip code
 License: GPLv2 or later
-Stable tag: 3.9.54
+Stable tag: 3.9.55
 Requires at least: 3.3
 Tested up to: 6.7
 Requires PHP: 5.3
@@ -88,6 +88,9 @@ Go to WordPress admin -> Appearance -> Customize, then click Additional CSS, and
 The upgrade is simple - upload everything up again to your `/wp-content/plugins/` directory, then go to the Locatoraid menu item in the admin panel. It will automatically start the upgrade process if any needed.
 
 == Changelog ==
+
+= 3.9.55 =
+BUG: The custom icons didn't work if the custom map style was used (Pro version).
 
 = 3.9.54 =
 BUG: New Google Maps JavaScript code occasionally broke the ability to use custom map styles, now it is fixed.

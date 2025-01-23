@@ -961,10 +961,16 @@ this.map = function( $this )
 					markerCustomIconUri = hc2_gmaps_vars['icon'];
 				}
 			}
+
 			if( markerCustomIconUri ){
-				const markerCustomIcon = document.createElement('img');
-				markerCustomIcon.src = markerCustomIconUri;
-				location_marker.content = markerCustomIcon;
+				if( self.map.useAdvancedMarkers ){
+					const markerCustomIcon = document.createElement('img');
+					markerCustomIcon.src = markerCustomIconUri;
+					location_marker.content = markerCustomIcon;
+				}
+				else {
+					location_marker.setIcon( markerCustomIconUri );
+				}
 			}
 
 			location_marker.addListener( 'click', function(){
