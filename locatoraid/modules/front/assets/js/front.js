@@ -847,14 +847,13 @@ this.map = function( $this )
 		if( coord.length > 1 ){
 			search_coordinates = new google.maps.LatLng(coord[0], coord[1]);
 
-			const pinSearched = new google.maps.marker.PinElement({
-				scale: 0.75,
-				background: "#000000",
-				borderColor: "#FFFFFF",
-				glyphColor: "#FFFFFF",
-			});
-
 			if( this.map.useAdvancedMarkers ){
+				const pinSearched = new google.maps.marker.PinElement({
+					scale: 0.75,
+					background: "#000000",
+					borderColor: "#FFFFFF",
+					glyphColor: "#FFFFFF",
+				});
 				var searched_marker = new google.maps.marker.AdvancedMarkerElement({
 					position: search_coordinates,
 					content: pinSearched.element,
