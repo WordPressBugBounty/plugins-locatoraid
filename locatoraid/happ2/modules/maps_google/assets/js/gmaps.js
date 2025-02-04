@@ -1,3 +1,5 @@
+var hc2OwnGmaps = true;
+
 window.addEventListener('load', function()
 {
 	var this_js_url = '//maps.googleapis.com/maps/api/js';
@@ -28,6 +30,7 @@ window.addEventListener('load', function()
 	}
 
 	if( (typeof google === 'object') && (typeof google.maps === 'object') ){
+		hc2OwnGmaps = false;
 		jQuery(document).trigger('hc2-gmaps-loaded');
 		return;
 	}
@@ -71,6 +74,10 @@ function hc2_init_gmaps( map_div, useMapId = true )
 		if( valid_style ){
 			map.setOptions( {styles: valid_style} );
 		}
+		map.useAdvancedMarkers = false;
+	}
+
+	if( ! hc2OwnGmaps ){
 		map.useAdvancedMarkers = false;
 	}
 

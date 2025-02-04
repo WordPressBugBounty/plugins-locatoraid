@@ -3,7 +3,7 @@ Plugin URI: https://www.locatoraid.com
 Contributors: Plainware
 Tags: map, store locator, store finder, google maps, zip code
 License: GPLv2 or later
-Stable tag: 3.9.56
+Stable tag: 3.9.57
 Requires at least: 3.3
 Tested up to: 6.7
 Requires PHP: 5.3
@@ -88,6 +88,9 @@ Go to WordPress admin -> Appearance -> Customize, then click Additional CSS, and
 The upgrade is simple - upload everything up again to your `/wp-content/plugins/` directory, then go to the Locatoraid menu item in the admin panel. It will automatically start the upgrade process if any needed.
 
 == Changelog ==
+
+= 3.9.57 =
+BUG: There was a JavaScript error in the front end if the Google Maps files were initially loaded by the site's theme or by other plugins.
 
 = 3.9.56 =
 BUG: There might appear a JavaScript error after searching in the front end with certain configurations.
