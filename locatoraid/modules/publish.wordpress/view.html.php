@@ -472,6 +472,25 @@ $tag = 'locatoraid';
 		</ul>
 	</li>
 
+	<li class="hc-mt3">
+		<h3 class="hc-underline">partial</h3>
+		<ul class="hc-ml3">
+			<li>
+				<?php echo __('Displays a part of the output. Use multiple shortcodes on the page with differerent partial attributes to put the parts of the front end view into separate divs/containers on the page.', 'locatoraid'); ?>
+			</li>
+
+			<li>
+				<?php echo __('Options', 'locatoraid'); ?>: <em>form</em>, <em>map</em>, <em>list</em>
+			</li>
+
+			<li class="hc-p2">
+				<code class="hc-p2">
+					&lt;div&gt;[<?php echo $tag; ?> partial="form"]&lt;/div&gt;&lt;div&gt;[<?php echo $tag; ?> partial="map"]&lt;/div&gt;&lt;div&gt;[<?php echo $tag; ?> partial="list"]&lt;/div&gt;
+				</code>
+			</li>
+		</ul>
+	</li>
+
 </ul>
 
 <h2><?php echo __('GET Override', 'locatoraid'); ?></h2>

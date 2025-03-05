@@ -4,6 +4,7 @@ class Front_View_LC_HC_MVC extends _HC_MVC
 	public function params()
 	{
 		$ret = array(
+			'partial' => '',
 			'layout'		=> 'map|list',
 			'form-after-map'	=> 0,
 			'start'			=> '',
@@ -189,6 +190,8 @@ class Front_View_LC_HC_MVC extends _HC_MVC
 		$layout_conf_setting = $params['layout'];
 		$allowed_components = array('map', 'list');
 
+		$partial = isset( $params['partial'] ) ? $params['partial'] : '';
+
 		$explode_by = '';
 		$layout = array();
 		if( strpos($layout_conf_setting, '|') !== FALSE ){
@@ -270,8 +273,6 @@ class Front_View_LC_HC_MVC extends _HC_MVC
 		$form_view = $this->app->make('/html/element')->tag('div')
 			->add( $form )
 			->add_attr('class', 'hc-mb3')
-			// ->add_attr('class', 'hc-p3')
-			// ->add_attr('class', 'hc-border')
 			;
 
 		$views = array();
@@ -310,6 +311,16 @@ class Front_View_LC_HC_MVC extends _HC_MVC
 			->add( $form_view )
 			->add_attr('id', 'locatoraid-form-container')
 			;
+
+		if( 'form' == $partial ){
+			return $form_view;
+		}
+		if( 'map' == $partial ){
+			return $views['map'];
+		}
+		if( 'list' == $partial ){
+			return $views['list'];
+		}
 
 		if( $formAfterMap ){
 			$form_view->add_attr( 'class', 'hc-mt2' );

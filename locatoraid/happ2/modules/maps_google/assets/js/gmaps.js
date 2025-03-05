@@ -31,10 +31,12 @@ window.addEventListener('load', function()
 
 	if( (typeof google === 'object') && (typeof google.maps === 'object') ){
 		hc2OwnGmaps = false;
+console.log('hc2OwnGmaps=false');
 		jQuery(document).trigger('hc2-gmaps-loaded');
 		return;
 	}
 	else {
+console.log('hc2OwnGmaps=true');
 		jQuery.getScript( this_js_url, function() {
 			// jQuery(document).trigger('hc2-gmaps-loaded');
 		});

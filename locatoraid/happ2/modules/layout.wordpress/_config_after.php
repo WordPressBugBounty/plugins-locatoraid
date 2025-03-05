@@ -52,6 +52,9 @@ $config['after']['/app/enqueuer->enqueue_style'][] = function( $app, $handle )
 
 $config['after']['/app/enqueuer->localize_script'][] = function( $app, $handle, $params )
 {
+	static $done = array();
+	if( isset($done[$handle]) && $done[$handle] ) return;
+	$done[$handle] = true;
 	$wp_handle = 'hc2-script-' . $handle;
 	$js_var = 'hc2_' . $handle . '_vars'; 
 	wp_localize_script( $wp_handle, $js_var, $params );
