@@ -3,9 +3,9 @@ Plugin URI: https://www.locatoraid.com
 Contributors: Plainware
 Tags: map, store locator, store finder, google maps, zip code
 License: GPLv2 or later
-Stable tag: 3.9.58
+Stable tag: 3.9.59
 Requires at least: 3.3
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 5.3
 
 A lightweight, easy-to-use store locator plugin. Premium version adds CSV imports, custom fields, custom map markers, location categories and more.
@@ -88,6 +88,9 @@ Go to WordPress admin -> Appearance -> Customize, then click Additional CSS, and
 The upgrade is simple - upload everything up again to your `/wp-content/plugins/` directory, then go to the Locatoraid menu item in the admin panel. It will automatically start the upgrade process if any needed.
 
 == Changelog ==
+
+= 3.9.59 =
+Tested up to WordPress 6.8.
 
 = 3.9.58 =
 Added the "partial" attribute for the shortcode that outputs only the part of the display. It allows to put the parts of the front end view into separate sections/divs/containers on the same page with multiple shortcodes.
