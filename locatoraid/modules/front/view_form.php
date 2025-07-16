@@ -160,6 +160,10 @@ class Front_View_Form_LC_HC_MVC extends _HC_MVC
 			$link_params['product'] = '_PRODUCT_';
 		}
 
+        if (isset($params['skipgeo']) && $params['skipgeo']) {
+            $link_params['skipgeo'] = $params['skipgeo'];
+        }
+
 		$link = $this->app->make('/http/uri')
 			->mode('api')
 			->url('/search', $link_params )

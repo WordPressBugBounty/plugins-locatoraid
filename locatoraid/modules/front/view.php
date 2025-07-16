@@ -30,6 +30,7 @@ class Front_View_LC_HC_MVC extends _HC_MVC
 			'clustering'	=> 0,
 
 			'locate'		=> 1, // 0,1,auto
+			'skipgeo'		=> 0, // 0,1
 			);
 
 		$p = $this->app->make('/locations/presenter');

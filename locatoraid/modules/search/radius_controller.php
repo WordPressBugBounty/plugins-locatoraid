@@ -34,8 +34,14 @@ ini_set( 'display_errors', FALSE );
 		$lng = $uri->param('lng');
 		$limit = $uri->param('limit');
 
+
 		$link_params = array();
 		$link_params['search'] = $search;
+
+        $skipgeo = $uri->param('skipgeo');
+        if ($skipgeo) {
+            $link_params['skipgeo'] = $skipgeo;
+        }
 
 		$results = array();
 		$command = $this->app->make('/locations/commands/read');

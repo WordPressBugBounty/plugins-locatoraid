@@ -49,6 +49,19 @@ ini_set( 'display_errors', false );
 		$radius = $uri->param('radius');
 		$offset = $uri->param('offset');
 
+        $skipGeoIfHaveMatch = $uri->param('skipgeo');
+        if ((null === $skipGeoIfHaveMatch) or (!strlen($skipGeoIfHaveMatch))){
+            $alwaysIncludePartialMatch = false;
+            $skipGeoIfHaveMatch = false;
+        } else {
+            $alwaysIncludePartialMatch = true;
+            $skipGeoIfHaveMatch = true;
+        }
+
+// var_dump($alwaysIncludePartialMatch);
+// var_dump($skipGeoIfHaveMatch);
+
+
 		if( $id ){
 			$search = NULL;
 			$lat = NULL;
@@ -262,11 +275,9 @@ ini_set( 'display_errors', false );
 			}
 		}
 
-$alwaysIncludePartialMatch = false;
-$skipGeoIfHaveMatch = false;
+// _print_r($geoResults);
+// _print_r($match_results);
 
-// $alwaysIncludePartialMatch = true;
-// $skipGeoIfHaveMatch = true;
 
 		if( $alwaysIncludePartialMatch && $skipGeoIfHaveMatch ){
 			if( $match_results ){

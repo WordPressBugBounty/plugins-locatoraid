@@ -491,6 +491,29 @@ $tag = 'locatoraid';
 		</ul>
 	</li>
 
+	<li class="hc-mt3">
+		<h3 class="hc-underline">skipgeo</h3>
+		<ul class="hc-ml3">
+			<li>
+				<?php echo __('Discards search results from geocoding if there are any database string matches.', 'locatoraid'); ?>
+			</li>
+
+			<li>
+				<?php echo __('Options', 'locatoraid'); ?>: <em>0</em>, <em>1</em>
+			</li>
+
+			<li>
+				<?php echo __('Default', 'locatoraid'); ?>: <em>0</em>
+			</li>
+
+			<li class="hc-p2">
+				<code class="hc-p2">
+					[<?php echo $tag; ?> skipgeo="1"]
+				</code>
+			</li>
+		</ul>
+	</li>
+
 </ul>
 
 <h2><?php echo __('GET Override', 'locatoraid'); ?></h2>
