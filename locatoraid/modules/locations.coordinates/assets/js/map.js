@@ -54,7 +54,7 @@ jQuery(document).on('hc2-gmaps-loaded', function()
 	function update_marker_position( latLng )
 	{
 		$map.closest('.hcj2-container').find('input[name\$=latitude]').val( latLng.lat );
-		$map.closest('.hcj2-container').find('input[name\$=longitude]').val( latLng.lat );
+		$map.closest('.hcj2-container').find('input[name\$=longitude]').val( latLng.lng );
 	}
 
 	if( can_edit ){
