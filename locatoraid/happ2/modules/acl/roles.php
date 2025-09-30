@@ -1,36 +1,35 @@
 <?php if (! defined('ABSPATH')) exit; // Exit if accessed directly
 class Acl_Roles_HC_MVC extends _HC_MVC
 {
-	public function has_role( $user_id, $check_role, $on = NULL )
+	public function has_role($user_id, $check_role, $on = null)
 	{
-		$return = FALSE;
+		$ret = false;
 		$bits = 0;
 
-		if( $on ){
-		}
-		else {
-			if( $user_id ){
+		if ($on) {
+		} else {
+			if($user_id) {
 				$user = $this->app->make('/users/commands/read')
-					->execute( array($user_id) )
+					->execute(array($user_id))
 					;
-				if( $user && isset($user['roles']) ){
+				if($user && isset($user['roles'])) {
 					$bits = $user['roles'];
 				}
 			}
 		}
 
-		$user_roles = $this->get_roles( $bits );
-		if( in_array($check_role, $user_roles) ){
-			$return = TRUE;
+		$user_roles = $this->get_roles($bits);
+		if(in_array($check_role, $user_roles)) {
+			$ret = true;
 		}
 
-		return $return;
+		return $ret;
 	}
 
 	public function roles()
 	{
 		$return = array(
-			'admin'		=> __( 'Administrator', 'locatoraid' ),
+			'admin' => __( 'Administrator', 'locatoraid' ),
 			);
 
 		$return = $this->app

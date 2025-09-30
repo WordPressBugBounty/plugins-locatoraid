@@ -62,7 +62,6 @@ class MVC_Factory_HC_System
 			$this_return_path = join('_', $slug_array);
 			$this_return_path .= '.php';
 			array_unshift( $return_path, $this_return_path );
-			// $final_return_path[] = $this_return_path;
 
 			$last_subdir = '';
 			while( ($subdir = array_shift($slug_array)) && $slug_array ){
@@ -72,7 +71,6 @@ class MVC_Factory_HC_System
 				}
 
 				$this_return_path .= '.php';
-				// $final_return_path[] = $this_return_path;
 				array_unshift( $return_path, $this_return_path );
 
 				if( $last_subdir ){
@@ -82,13 +80,8 @@ class MVC_Factory_HC_System
 			}
 		}
 
-// echo "FINAL RETURN PATH<br>";
-// _print_r( $return_path );
-
 		$return = array( $return_module, $return_classname, $return_path );
 
-// echo "MAKING CLASSNAME PATH FROM '$slug'<br>";
-// _print_r( $return );
 		$slug2class[ $slug ] = $return;
 		return $return;
 	}

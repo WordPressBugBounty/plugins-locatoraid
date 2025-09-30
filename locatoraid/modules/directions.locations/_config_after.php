@@ -1,31 +1,31 @@
 <?php if (! defined('ABSPATH')) exit; // Exit if accessed directly
-$config['after']['/locations/presenter->fields'][] = function( $app, $return )
+$config['after']['/locations/presenter->fields'][] = function( $app, $ret )
 {
-	$return['directions'] = __('Directions', 'locatoraid');
-	return $return;
+	$ret['directions'] = __('Directions', 'locatoraid');
+	return $ret;
 };
 
-$config['after']['/locations/presenter->present_front'][] = function( $app, $return, $search, $search_coordinates )
+$config['after']['/locations/presenter->present_front'][] = function( $app, $ret, $search, $search_coordinates )
 {
-	if( ! ($return['latitude'] && $return['longitude']) ){
-		return $return;
+	if( ! ($ret['latitude'] && $ret['longitude']) ){
+		return $ret;
 	}
 
-	if( ( ($return['latitude'] == -1) OR ($return['longitude'] == -1) ) ){
-		return $return;
+	if( ( ($ret['latitude'] == -1) OR ($ret['longitude'] == -1) ) ){
+		return $ret;
 	}
 
 	if( ! $search_coordinates ){
-		return $return;
+		return $ret;
 	}
 	if( ! is_array($search_coordinates) ){
-		return $return;
+		return $ret;
 	}
 
 	$search_lat = array_shift( $search_coordinates );
 	$search_lng = array_shift( $search_coordinates );
 	if( ! ($search_lat && $search_lng) ){
-		return $return;
+		return $ret;
 	}
 
 	$app_settings = $app->make('/app/settings');
@@ -33,7 +33,7 @@ $config['after']['/locations/presenter->present_front'][] = function( $app, $ret
 	$this_pname = 'fields:directions:use';
 	$this_pname_config = $app_settings->get($this_pname);
 	if( ! $this_pname_config ){
-		return $return;
+		return $ret;
 	}
 
 	$this_pname = 'fields:directions:label';
@@ -43,8 +43,8 @@ $config['after']['/locations/presenter->present_front'][] = function( $app, $ret
 	$link_args = array(
 		'class'			=> 'lpr-directions',
 		'href'			=> '#',
-		'data-to-lat'	=> $return['latitude'],
-		'data-to-lng'	=> $return['longitude'],
+		'data-to-lat'	=> $ret['latitude'],
+		'data-to-lng'	=> $ret['longitude'],
 		'data-from-lat'	=> $search_lat,
 		'data-from-lng'	=> $search_lng,
 		);
@@ -58,6 +58,6 @@ $config['after']['/locations/presenter->present_front'][] = function( $app, $ret
 	$link_view .= $this_label;
 	$link_view .= '</a>';
 
-	$return['directions'] = $link_view;
-	return $return;
+	$ret['directions'] = $link_view;
+	return $ret;
 };

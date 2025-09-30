@@ -1,12 +1,12 @@
 <?php if (! defined('ABSPATH')) exit; // Exit if accessed directly
-$config['after']['/front/view'][] = function( $app, $return )
+$config['after']['/front/view'][] = function( $app, $ret )
 {
 	$app_settings = $app->make('/app/settings');
 
 	$this_pname = 'fields:directions:use';
 	$this_pname_config = $app_settings->get($this_pname);
 	if( ! $this_pname_config ){
-		return $return;
+		return $ret;
 	}
 
 	$app->make('/app/enqueuer')
@@ -14,5 +14,5 @@ $config['after']['/front/view'][] = function( $app, $return )
 		->enqueue_script( 'lc-directions-front' )
 		;
 
-	return $return;
+	return $ret;
 };

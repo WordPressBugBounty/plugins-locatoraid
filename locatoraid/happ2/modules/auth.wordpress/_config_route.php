@@ -8,3 +8,8 @@ $auth_wordpress_login_redirect = function( $app ){
 
 $config['route']['auth/login'] = $auth_wordpress_login_redirect;
 $config['route']['login'] = $auth_wordpress_login_redirect;
+if (is_admin()){
+    $config['route'][''] = '/locations/index/controller';
+} else {
+    $config['route'][''] = $auth_wordpress_login_redirect;
+}

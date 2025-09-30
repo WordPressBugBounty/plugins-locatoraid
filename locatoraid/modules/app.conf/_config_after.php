@@ -1,6 +1,6 @@
 <?php if (! defined('ABSPATH')) exit; // Exit if accessed directly
-$config['after']['/conf/view/layout->tabs'][] = function( $app, $return )
+$config['after']['/conf/view/layout->tabs'][] = function( $app, $ret )
 {
-	$return['app'] = array( 'app.conf', __('Configuration', 'locatoraid') );
-	return $return;
+	$ret['app'] = array( 'app.conf', __('Configuration', 'locatoraid') );
+	return $ret;
 };

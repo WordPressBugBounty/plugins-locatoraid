@@ -51,419 +51,63 @@
 if( ! class_exists('HC_Database_Query_Builder') ){
 
 class HC_Database_Query_Builder {
-	/**
-	 * Table prefix
-	 *
-	 * @var	string
-	 */
 	public $dbprefix		= '';
-
-	/**
-	 * Character set
-	 *
-	 * @var	string
-	 */
 	public $char_set		= 'utf8';
-
-	/**
-	 * Swap Prefix
-	 *
-	 * @var	string
-	 */
 	public $swap_pre		= '';
-
-	/**
-	 * Debug flag
-	 *
-	 * Whether to display error messages.
-	 *
-	 * @var	bool
-	 */
 	public $db_debug		= FALSE;
 	public $db_debug_level	= 'low';
-
-	/**
-	 * Benchmark time
-	 *
-	 * @var	int
-	 */
 	public $benchmark		= 0;
-
-	/**
-	 * Bind marker
-	 *
-	 * Character used to identify values in a prepared statement.
-	 *
-	 * @var	string
-	 */
 	public $bind_marker		= '?';
-
-	/**
-	 * Save queries flag
-	 *
-	 * Whether to keep an in-memory history of queries for debugging purposes.
-	 *
-	 * @var	bool
-	 */
 	public $save_queries		= TRUE;
-
-	/**
-	 * Queries list
-	 *
-	 * @see	CI_DB_driver::$save_queries
-	 * @var	string[]
-	 */
 	public $queries			= array();
-
-	/**
-	 * Query times
-	 *
-	 * A list of times that queries took to execute.
-	 *
-	 * @var	array
-	 */
 	public $query_times		= array();
-
-	/**
-	 * Transaction enabled flag
-	 *
-	 * @var	bool
-	 */
 	public $trans_enabled		= TRUE;
-
-	/**
-	 * Strict transaction mode flag
-	 *
-	 * @var	bool
-	 */
 	public $trans_strict		= TRUE;
-
-	/**
-	 * Transaction depth level
-	 *
-	 * @var	int
-	 */
 	protected $_trans_depth		= 0;
-
-	/**
-	 * Transaction status flag
-	 *
-	 * Used with transactions to determine if a rollback should occur.
-	 *
-	 * @var	bool
-	 */
 	protected $_trans_status	= TRUE;
-
-	/**
-	 * Transaction failure flag
-	 *
-	 * Used with transactions to determine if a transaction has failed.
-	 *
-	 * @var	bool
-	 */
 	protected $_trans_failure	= FALSE;
-
-	/**
-	 * Cache On flag
-	 *
-	 * @var	bool
-	 */
 	public $cache_on		= FALSE;
-
-	/**
-	 * Cache directory path
-	 *
-	 * @var	bool
-	 */
 	public $cachedir		= '';
-
-	/**
-	 * Cache auto-delete flag
-	 *
-	 * @var	bool
-	 */
 	public $cache_autodel		= FALSE;
-
-	/**
-	 * DB Cache object
-	 *
-	 * @see	CI_DB_cache
-	 * @var	object
-	 */
 	public $CACHE;
-
-	/**
-	 * Protect identifiers flag
-	 *
-	 * @var	bool
-	 */
 	protected $_protect_identifiers		= TRUE;
-
-	/**
-	 * List of reserved identifiers
-	 *
-	 * Identifiers that must NOT be escaped.
-	 *
-	 * @var	string[]
-	 */
 	protected $_reserved_identifiers	= array('*');
-
-	/**
-	 * Identifier escape character
-	 *
-	 * @var	string
-	 */
-	// protected $_escape_char = '"';
 	protected $_escape_char = '`';
-
-	/**
-	 * ESCAPE statement string
-	 *
-	 * @var	string
-	 */
 	protected $_like_escape_str = " ESCAPE '%s' ";
-
-	/**
-	 * ESCAPE character
-	 *
-	 * @var	string
-	 */
 	protected $_like_escape_chr = '!';
-
-	/**
-	 * ORDER BY random keyword
-	 *
-	 * @var	array
-	 */
 	protected $_random_keyword = array('RAND()', 'RAND(%d)');
-
-	/**
-	 * COUNT string
-	 *
-	 * @used-by	CI_DB_driver::count_all()
-	 * @used-by	CI_DB_query_builder::count_all_results()
-	 *
-	 * @var	string
-	 */
 	protected $_count_string = 'SELECT COUNT(*) AS ';
-
-	/**
-	 * Return DELETE SQL flag
-	 *
-	 * @var	bool
-	 */
 	protected $return_delete_sql		= FALSE;
-
-	/**
-	 * Reset DELETE data flag
-	 *
-	 * @var	bool
-	 */
 	protected $reset_delete_data		= FALSE;
-
-	/**
-	 * QB SELECT data
-	 *
-	 * @var	array
-	 */
 	protected $qb_select			= array();
-
-	/**
-	 * QB DISTINCT flag
-	 *
-	 * @var	bool
-	 */
 	protected $qb_distinct			= FALSE;
-
-	/**
-	 * QB FROM data
-	 *
-	 * @var	array
-	 */
 	protected $qb_from			= array();
-
-	/**
-	 * QB JOIN data
-	 *
-	 * @var	array
-	 */
 	protected $qb_join			= array();
 	protected $qb_join_tables	= array();
-
-	/**
-	 * QB WHERE data
-	 *
-	 * @var	array
-	 */
 	protected $qb_where			= array();
-
-	/**
-	 * QB GROUP BY data
-	 *
-	 * @var	array
-	 */
 	protected $qb_groupby			= array();
-
-	/**
-	 * QB HAVING data
-	 *
-	 * @var	array
-	 */
 	protected $qb_having			= array();
-
-	/**
-	 * QB keys
-	 *
-	 * @var	array
-	 */
 	protected $qb_keys			= array();
-
-	/**
-	 * QB LIMIT data
-	 *
-	 * @var	int
-	 */
 	protected $qb_limit			= FALSE;
-
-	/**
-	 * QB OFFSET data
-	 *
-	 * @var	int
-	 */
 	protected $qb_offset			= FALSE;
-
-	/**
-	 * QB ORDER BY data
-	 *
-	 * @var	array
-	 */
 	protected $qb_orderby			= array();
-
-	/**
-	 * QB data sets
-	 *
-	 * @var	array
-	 */
 	protected $qb_set			= array();
-
-	/**
-	 * QB aliased tables list
-	 *
-	 * @var	array
-	 */
 	protected $qb_aliased_tables		= array();
-
-	/**
-	 * QB WHERE group started flag
-	 *
-	 * @var	bool
-	 */
 	protected $qb_where_group_started	= FALSE;
-
-	/**
-	 * QB WHERE group count
-	 *
-	 * @var	int
-	 */
 	protected $qb_where_group_count		= 0;
-
-	// Query Builder Caching variables
-
-	/**
-	 * QB Caching flag
-	 *
-	 * @var	bool
-	 */
 	protected $qb_caching				= FALSE;
-
-	/**
-	 * QB Cache exists list
-	 *
-	 * @var	array
-	 */
 	protected $qb_cache_exists			= array();
-
-	/**
-	 * QB Cache SELECT data
-	 *
-	 * @var	array
-	 */
 	protected $qb_cache_select			= array();
-
-	/**
-	 * QB Cache FROM data
-	 *
-	 * @var	array
-	 */
 	protected $qb_cache_from			= array();
-
-	/**
-	 * QB Cache JOIN data
-	 *
-	 * @var	array
-	 */
 	protected $qb_cache_join			= array();
-
-	/**
-	 * QB Cache WHERE data
-	 *
-	 * @var	array
-	 */
 	protected $qb_cache_where			= array();
-
-	/**
-	 * QB Cache GROUP BY data
-	 *
-	 * @var	array
-	 */
 	protected $qb_cache_groupby			= array();
-
-	/**
-	 * QB Cache HAVING data
-	 *
-	 * @var	array
-	 */
 	protected $qb_cache_having			= array();
-
-	/**
-	 * QB Cache ORDER BY data
-	 *
-	 * @var	array
-	 */
 	protected $qb_cache_orderby			= array();
-
-	/**
-	 * QB Cache data sets
-	 *
-	 * @var	array
-	 */
 	protected $qb_cache_set				= array();
-
-	/**
-	 * QB No Escape data
-	 *
-	 * @var	array
-	 */
 	protected $qb_no_escape 			= array();
-
-	/**
-	 * QB Cache No Escape data
-	 *
-	 * @var	array
-	 */
 	protected $qb_cache_no_escape			= array();
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Select
-	 *
-	 * Generates the SELECT portion of the query
-	 *
-	 * @param	string
-	 * @param	mixed
-	 * @return	CI_DB_query_builder
-	 */
 	public function select($select = '*', $escape = NULL)
 	{
 		if (is_string($select))
@@ -495,85 +139,26 @@ class HC_Database_Query_Builder {
 		return $this;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Select Max
-	 *
-	 * Generates a SELECT MAX(field) portion of a query
-	 *
-	 * @param	string	the field
-	 * @param	string	an alias
-	 * @return	CI_DB_query_builder
-	 */
 	public function select_max($select = '', $alias = '')
 	{
 		return $this->_max_min_avg_sum($select, $alias, 'MAX');
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Select Min
-	 *
-	 * Generates a SELECT MIN(field) portion of a query
-	 *
-	 * @param	string	the field
-	 * @param	string	an alias
-	 * @return	CI_DB_query_builder
-	 */
 	public function select_min($select = '', $alias = '')
 	{
 		return $this->_max_min_avg_sum($select, $alias, 'MIN');
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Select Average
-	 *
-	 * Generates a SELECT AVG(field) portion of a query
-	 *
-	 * @param	string	the field
-	 * @param	string	an alias
-	 * @return	CI_DB_query_builder
-	 */
 	public function select_avg($select = '', $alias = '')
 	{
 		return $this->_max_min_avg_sum($select, $alias, 'AVG');
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Select Sum
-	 *
-	 * Generates a SELECT SUM(field) portion of a query
-	 *
-	 * @param	string	the field
-	 * @param	string	an alias
-	 * @return	CI_DB_query_builder
-	 */
 	public function select_sum($select = '', $alias = '')
 	{
 		return $this->_max_min_avg_sum($select, $alias, 'SUM');
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * SELECT [MAX|MIN|AVG|SUM]()
-	 *
-	 * @used-by	select_max()
-	 * @used-by	select_min()
-	 * @used-by	select_avg()
-	 * @used-by	select_sum()
-	 *
-	 * @param	string	$select	Field name
-	 * @param	string	$alias
-	 * @param	string	$type
-	 * @return	CI_DB_query_builder
-	 */
 	protected function _max_min_avg_sum($select = '', $alias = '', $type = 'MAX')
 	{
 		if ( ! is_string($select) OR $select === '')
@@ -607,14 +192,6 @@ class HC_Database_Query_Builder {
 		return $this;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Determines the alias name based on the table
-	 *
-	 * @param	string	$item
-	 * @return	string
-	 */
 	protected function _create_alias_from_table($item)
 	{
 		if (strpos($item, '.') !== FALSE)
@@ -626,32 +203,12 @@ class HC_Database_Query_Builder {
 		return $item;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * DISTINCT
-	 *
-	 * Sets a flag which tells the query string compiler to add DISTINCT
-	 *
-	 * @param	bool	$val
-	 * @return	CI_DB_query_builder
-	 */
 	public function distinct($val = TRUE)
 	{
 		$this->qb_distinct = is_bool($val) ? $val : TRUE;
 		return $this;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * From
-	 *
-	 * Generates the FROM portion of the query
-	 *
-	 * @param	mixed	$from	can be a string or array
-	 * @return	CI_DB_query_builder
-	 */
 	public function from($from)
 	{
 		foreach ((array) $from as $val)
@@ -693,19 +250,6 @@ class HC_Database_Query_Builder {
 		return $this;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * JOIN
-	 *
-	 * Generates the JOIN portion of the query
-	 *
-	 * @param	string
-	 * @param	string	the join condition
-	 * @param	string	the type of join
-	 * @param	string	whether not to try to escape identifiers
-	 * @return	CI_DB_query_builder
-	 */
 	public function join($table, $cond, $type = '', $escape = NULL)
 	{
 		if ($type !== '')
@@ -789,59 +333,16 @@ class HC_Database_Query_Builder {
 		return $this;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * WHERE
-	 *
-	 * Generates the WHERE portion of the query.
-	 * Separates multiple calls with 'AND'.
-	 *
-	 * @param	mixed
-	 * @param	mixed
-	 * @param	bool
-	 * @return	CI_DB_query_builder
-	 */
 	public function where($key, $value = NULL, $escape = NULL)
 	{
 		return $this->_wh('qb_where', $key, $value, 'AND ', $escape);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * OR WHERE
-	 *
-	 * Generates the WHERE portion of the query.
-	 * Separates multiple calls with 'OR'.
-	 *
-	 * @param	mixed
-	 * @param	mixed
-	 * @param	bool
-	 * @return	CI_DB_query_builder
-	 */
 	public function or_where($key, $value = NULL, $escape = NULL)
 	{
 		return $this->_wh('qb_where', $key, $value, 'OR ', $escape);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * WHERE, HAVING
-	 *
-	 * @used-by	where()
-	 * @used-by	or_where()
-	 * @used-by	having()
-	 * @used-by	or_having()
-	 *
-	 * @param	string	$qb_key	'qb_where' or 'qb_having'
-	 * @param	mixed	$key
-	 * @param	mixed	$value
-	 * @param	string	$type
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
 	protected function _wh($qb_key, $key, $value = NULL, $type = 'AND ', $escape = NULL)
 	{
 		$qb_cache_key = ($qb_key === 'qb_having') ? 'qb_cache_having' : 'qb_cache_where';
@@ -894,95 +395,26 @@ class HC_Database_Query_Builder {
 		return $this;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * WHERE IN
-	 *
-	 * Generates a WHERE field IN('item', 'item') SQL query,
-	 * joined with 'AND' if appropriate.
-	 *
-	 * @param	string	$key	The field to search
-	 * @param	array	$values	The values searched on
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
 	public function where_in($key = NULL, $values = NULL, $escape = NULL)
 	{
 		return $this->_where_in($key, $values, FALSE, 'AND ', $escape);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * OR WHERE IN
-	 *
-	 * Generates a WHERE field IN('item', 'item') SQL query,
-	 * joined with 'OR' if appropriate.
-	 *
-	 * @param	string	$key	The field to search
-	 * @param	array	$values	The values searched on
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
 	public function or_where_in($key = NULL, $values = NULL, $escape = NULL)
 	{
 		return $this->_where_in($key, $values, FALSE, 'OR ', $escape);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * WHERE NOT IN
-	 *
-	 * Generates a WHERE field NOT IN('item', 'item') SQL query,
-	 * joined with 'AND' if appropriate.
-	 *
-	 * @param	string	$key	The field to search
-	 * @param	array	$values	The values searched on
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
 	public function where_not_in($key = NULL, $values = NULL, $escape = NULL)
 	{
 		return $this->_where_in($key, $values, TRUE, 'AND ', $escape);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * OR WHERE NOT IN
-	 *
-	 * Generates a WHERE field NOT IN('item', 'item') SQL query,
-	 * joined with 'OR' if appropriate.
-	 *
-	 * @param	string	$key	The field to search
-	 * @param	array	$values	The values searched on
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
 	public function or_where_not_in($key = NULL, $values = NULL, $escape = NULL)
 	{
 		return $this->_where_in($key, $values, TRUE, 'OR ', $escape);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Internal WHERE IN
-	 *
-	 * @used-by	where_in()
-	 * @used-by	or_where_in()
-	 * @used-by	where_not_in()
-	 * @used-by	or_where_not_in()
-	 *
-	 * @param	string	$key	The field to search
-	 * @param	array	$values	The values searched on
-	 * @param	bool	$not	If the statement would be IN or NOT IN
-	 * @param	string	$type
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
 	protected function _where_in($key = NULL, $values = NULL, $not = FALSE, $type = 'AND ', $escape = NULL)
 	{
 		if ($key === NULL OR $values === NULL)
@@ -1031,100 +463,26 @@ class HC_Database_Query_Builder {
 		return $this;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * LIKE
-	 *
-	 * Generates a %LIKE% portion of the query.
-	 * Separates multiple calls with 'AND'.
-	 *
-	 * @param	mixed	$field
-	 * @param	string	$match
-	 * @param	string	$side
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
 	public function like($field, $match = '', $side = 'both', $escape = NULL)
 	{
 		return $this->_like($field, $match, 'AND ', $side, '', $escape);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * NOT LIKE
-	 *
-	 * Generates a NOT LIKE portion of the query.
-	 * Separates multiple calls with 'AND'.
-	 *
-	 * @param	mixed	$field
-	 * @param	string	$match
-	 * @param	string	$side
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
 	public function not_like($field, $match = '', $side = 'both', $escape = NULL)
 	{
 		return $this->_like($field, $match, 'AND ', $side, 'NOT', $escape);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * OR LIKE
-	 *
-	 * Generates a %LIKE% portion of the query.
-	 * Separates multiple calls with 'OR'.
-	 *
-	 * @param	mixed	$field
-	 * @param	string	$match
-	 * @param	string	$side
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
 	public function or_like($field, $match = '', $side = 'both', $escape = NULL)
 	{
 		return $this->_like($field, $match, 'OR ', $side, '', $escape);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * OR NOT LIKE
-	 *
-	 * Generates a NOT LIKE portion of the query.
-	 * Separates multiple calls with 'OR'.
-	 *
-	 * @param	mixed	$field
-	 * @param	string	$match
-	 * @param	string	$side
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
 	public function or_not_like($field, $match = '', $side = 'both', $escape = NULL)
 	{
 		return $this->_like($field, $match, 'OR ', $side, 'NOT', $escape);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Internal LIKE
-	 *
-	 * @used-by	like()
-	 * @used-by	or_like()
-	 * @used-by	not_like()
-	 * @used-by	or_not_like()
-	 *
-	 * @param	mixed	$field
-	 * @param	string	$match
-	 * @param	string	$type
-	 * @param	string	$side
-	 * @param	string	$not
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
 	protected function _like($field, $match = '', $type = 'AND ', $side = 'both', $not = '', $escape = NULL)
 	{
 		if ( ! is_array($field))
@@ -1180,15 +538,6 @@ class HC_Database_Query_Builder {
 		return $this;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Starts a query group.
-	 *
-	 * @param	string	$not	(Internal use only)
-	 * @param	string	$type	(Internal use only)
-	 * @return	CI_DB_query_builder
-	 */
 	public function group_start($not = '', $type = 'AND ')
 	{
 		$type = $this->_group_get_type($type);
@@ -1209,49 +558,21 @@ class HC_Database_Query_Builder {
 		return $this;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Starts a query group, but ORs the group
-	 *
-	 * @return	CI_DB_query_builder
-	 */
 	public function or_group_start()
 	{
 		return $this->group_start('', 'OR ');
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Starts a query group, but NOTs the group
-	 *
-	 * @return	CI_DB_query_builder
-	 */
 	public function not_group_start()
 	{
 		return $this->group_start('NOT ', 'AND ');
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Starts a query group, but OR NOTs the group
-	 *
-	 * @return	CI_DB_query_builder
-	 */
 	public function or_not_group_start()
 	{
 		return $this->group_start('NOT ', 'OR ');
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Ends a query group
-	 *
-	 * @return	CI_DB_query_builder
-	 */
 	public function group_end()
 	{
 		$this->qb_where_group_started = FALSE;
@@ -1269,19 +590,6 @@ class HC_Database_Query_Builder {
 		return $this;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Group_get_type
-	 *
-	 * @used-by	group_start()
-	 * @used-by	_like()
-	 * @used-by	_wh()
-	 * @used-by	_where_in()
-	 *
-	 * @param	string	$type
-	 * @return	string
-	 */
 	protected function _group_get_type($type)
 	{
 		if ($this->qb_where_group_started)
@@ -1293,15 +601,6 @@ class HC_Database_Query_Builder {
 		return $type;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * GROUP BY
-	 *
-	 * @param	string	$by
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
 	public function group_by($by, $escape = NULL)
 	{
 		is_bool($escape) OR $escape = $this->_protect_identifiers;
@@ -1333,50 +632,16 @@ class HC_Database_Query_Builder {
 		return $this;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * HAVING
-	 *
-	 * Separates multiple calls with 'AND'.
-	 *
-	 * @param	string	$key
-	 * @param	string	$value
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
 	public function having($key, $value = NULL, $escape = NULL)
 	{
 		return $this->_wh('qb_having', $key, $value, 'AND ', $escape);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * OR HAVING
-	 *
-	 * Separates multiple calls with 'OR'.
-	 *
-	 * @param	string	$key
-	 * @param	string	$value
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
 	public function or_having($key, $value = NULL, $escape = NULL)
 	{
 		return $this->_wh('qb_having', $key, $value, 'OR ', $escape);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * ORDER BY
-	 *
-	 * @param	string	$orderby
-	 * @param	string	$direction	ASC, DESC or RANDOM
-	 * @param	bool	$escape
-	 * @return	CI_DB_query_builder
-	 */
 	public function order_by($orderby, $direction = '', $escape = NULL)
 	{
 		$direction = strtoupper(trim($direction));
@@ -1426,15 +691,6 @@ class HC_Database_Query_Builder {
 		return $this;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * LIMIT
-	 *
-	 * @param	int	$value	LIMIT value
-	 * @param	int	$offset	OFFSET value
-	 * @return	CI_DB_query_builder
-	 */
 	public function limit($value, $offset = 0)
 	{
 		is_null($value) OR $this->qb_limit = (int) $value;
@@ -1443,47 +699,17 @@ class HC_Database_Query_Builder {
 		return $this;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Sets the OFFSET value
-	 *
-	 * @param	int	$offset	OFFSET value
-	 * @return	CI_DB_query_builder
-	 */
 	public function offset($offset)
 	{
 		empty($offset) OR $this->qb_offset = (int) $offset;
 		return $this;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * LIMIT string
-	 *
-	 * Generates a platform-specific LIMIT clause.
-	 *
-	 * @param	string	$sql	SQL Query
-	 * @return	string
-	 */
 	protected function _limit($sql)
 	{
 		return $sql.' LIMIT '.($this->qb_offset ? $this->qb_offset.', ' : '').$this->qb_limit;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * The "set" function.
-	 *
-	 * Allows key/value pairs to be set for inserting or updating
-	 *
-	 * @param	mixed
-	 * @param	string
-	 * @param	bool
-	 * @return	CI_DB_query_builder
-	 */
 	public function set($key, $value = '', $escape = NULL)
 	{
 		$key = $this->_object_to_array($key);
@@ -1504,17 +730,6 @@ class HC_Database_Query_Builder {
 		return $this;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Get SELECT query string
-	 *
-	 * Compiles a SELECT query string and returns the sql.
-	 *
-	 * @param	string	the table name to select from (optional)
-	 * @param	bool	TRUE: resets QB values; FALSE: leave QB values alone
-	 * @return	string
-	 */
 	public function get_compiled_select($table = '', $reset = TRUE)
 	{
 		if ($table !== '')
@@ -1533,33 +748,11 @@ class HC_Database_Query_Builder {
 		return $select;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Insert batch statement
-	 *
-	 * Generates a platform-specific insert string from the supplied data.
-	 *
-	 * @param	string	$table	Table name
-	 * @param	array	$keys	INSERT keys
-	 * @param	array	$values	INSERT values
-	 * @return	string
-	 */
 	protected function _insert_batch($table, $keys, $values)
 	{
 		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES '.implode(', ', $values);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * The "set_insert_batch" function.  Allows key/value pairs to be set for batch inserts
-	 *
-	 * @param	mixed
-	 * @param	string
-	 * @param	bool
-	 * @return	CI_DB_query_builder
-	 */
 	public function set_insert_batch($key, $value = '', $escape = NULL)
 	{
 		$key = $this->_object_to_array_batch($key);
@@ -1608,17 +801,6 @@ class HC_Database_Query_Builder {
 		return $this;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Get INSERT query string
-	 *
-	 * Compiles an insert query and returns the sql
-	 *
-	 * @param	string	the table to insert into
-	 * @param	bool	TRUE: reset QB values; FALSE: leave QB values alone
-	 * @return	string
-	 */
 	public function get_compiled_insert($table = '', $reset = TRUE)
 	{
 		if ($this->_validate_insert($table) === FALSE)
@@ -1642,18 +824,6 @@ class HC_Database_Query_Builder {
 		return $sql;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Validate Insert
-	 *
-	 * This method is used by both insert() and get_compiled_insert() to
-	 * validate that the there data is actually being set and that table
-	 * has been chosen to be inserted into.
-	 *
-	 * @param	string	the table to insert data into
-	 * @return	string
-	 */
 	protected function _validate_insert($table = '')
 	{
 		if (count($this->qb_set) === 0)
@@ -1673,51 +843,16 @@ class HC_Database_Query_Builder {
 		return TRUE;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Replace statement
-	 *
-	 * Generates a platform-specific replace string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
-	 * @return	string
-	 */
 	protected function _replace($table, $keys, $values)
 	{
 		return 'REPLACE INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * FROM tables
-	 *
-	 * Groups tables in FROM clauses if needed, so there is no confusion
-	 * about operator precedence.
-	 *
-	 * Note: This is only used (and overridden) by MySQL and CUBRID.
-	 *
-	 * @return	string
-	 */
 	protected function _from_tables()
 	{
 		return implode(', ', $this->qb_from);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Get UPDATE query string
-	 *
-	 * Compiles an update query and returns the sql
-	 *
-	 * @param	string	the table to update
-	 * @param	bool	TRUE: reset QB values; FALSE: leave QB values alone
-	 * @return	string
-	 */
 	public function get_compiled_update($table = '', $reset = TRUE)
 	{
 		// Combine any cached components with the current statements
@@ -1738,18 +873,6 @@ class HC_Database_Query_Builder {
 		return $sql;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Validate Update
-	 *
-	 * This method is used by both update() and get_compiled_update() to
-	 * validate that data is actually being set and that a table has been
-	 * chosen to be update.
-	 *
-	 * @param	string	the table to update data on
-	 * @return	bool
-	 */
 	protected function _validate_update($table)
 	{
 		if (count($this->qb_set) === 0)
@@ -1769,18 +892,6 @@ class HC_Database_Query_Builder {
 		return TRUE;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Update_Batch statement
-	 *
-	 * Generates a platform-specific batch update string from the supplied data
-	 *
-	 * @param	string	$table	Table name
-	 * @param	array	$values	Update data
-	 * @param	string	$index	WHERE key
-	 * @return	string
-	 */
 	protected function _update_batch($table, $values, $index)
 	{
 		$ids = array();
@@ -1810,16 +921,6 @@ class HC_Database_Query_Builder {
 		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2).$this->_compile_wh('qb_where');
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * The "set_update_batch" function.  Allows key/value pairs to be set for batch updating
-	 *
-	 * @param	array
-	 * @param	string
-	 * @param	bool
-	 * @return	CI_DB_query_builder
-	 */
 	public function set_update_batch($key, $index = '', $escape = NULL)
 	{
 		$key = $this->_object_to_array_batch($key);
@@ -1856,35 +957,11 @@ class HC_Database_Query_Builder {
 		return $this;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Truncate statement
-	 *
-	 * Generates a platform-specific truncate string from the supplied data
-	 *
-	 * If the database does not support the truncate() command,
-	 * then this method maps to 'DELETE FROM table'
-	 *
-	 * @param	string	the table name
-	 * @return	string
-	 */
 	protected function _truncate($table)
 	{
 		return 'TRUNCATE '.$table;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Get DELETE query string
-	 *
-	 * Compiles a delete query string and returns the sql
-	 *
-	 * @param	string	the table to delete from
-	 * @param	bool	TRUE: reset QB values; FALSE: leave QB values alone
-	 * @return	string
-	 */
 	public function get_compiled_delete($table = '', $reset = TRUE)
 	{
 		$this->return_delete_sql = TRUE;
@@ -1893,19 +970,6 @@ class HC_Database_Query_Builder {
 		return $sql;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Delete
-	 *
-	 * Compiles a delete string and runs the query
-	 *
-	 * @param	mixed	the table(s) to delete from. String or array
-	 * @param	mixed	the where clause
-	 * @param	mixed	the limit clause
-	 * @param	bool
-	 * @return	mixed
-	 */
 	public function delete($table = '', $where = '', $limit = NULL, $reset_data = TRUE)
 	{
 		// Combine any cached components with the current statements
@@ -1960,16 +1024,6 @@ class HC_Database_Query_Builder {
 		return ($this->return_delete_sql === TRUE) ? $sql : $this->query($sql);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Delete statement
-	 *
-	 * Generates a platform-specific delete string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @return	string
-	 */
 	protected function _delete($table)
 	{
 		// $sql = 'DELETE FROM '.$table.$this->_compile_wh('qb_where')
@@ -1997,16 +1051,6 @@ class HC_Database_Query_Builder {
 		return $sql;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * DB Prefix
-	 *
-	 * Prepends a database prefix if one exists in configuration
-	 *
-	 * @param	string	the table
-	 * @return	string
-	 */
 	public function dbprefix($table = '')
 	{
 		if ($table === '')
@@ -2017,16 +1061,6 @@ class HC_Database_Query_Builder {
 		return $this->dbprefix.$table;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Set DB Prefix
-	 *
-	 * Set's the DB Prefix to something new without needing to reconnect
-	 *
-	 * @param	string	the prefix
-	 * @return	string
-	 */
 	public function set_prefix($prefix = '')
 	{
 		$this->dbprefix = $prefix;
@@ -2036,16 +1070,6 @@ class HC_Database_Query_Builder {
 		return $this->dbprefix;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Track Aliases
-	 *
-	 * Used to track SQL statements written with aliased tables.
-	 *
-	 * @param	string	The table to inspect
-	 * @return	string
-	 */
 	protected function _track_aliases($table)
 	{
 		if (is_array($table))
@@ -2081,17 +1105,6 @@ class HC_Database_Query_Builder {
 		}
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Compile the SELECT statement
-	 *
-	 * Generates a query string based on which functions were used.
-	 * Should not be called directly.
-	 *
-	 * @param	bool	$select_override
-	 * @return	string
-	 */
 	protected function _compile_select($select_override = FALSE)
 	{
 		// Combine any cached components with the current statements
@@ -2151,20 +1164,6 @@ class HC_Database_Query_Builder {
 		return $sql;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Compile WHERE, HAVING statements
-	 *
-	 * Escapes identifiers in WHERE and HAVING statements at execution time.
-	 *
-	 * Required so that aliases are tracked properly, regardless of whether
-	 * where(), or_where(), having(), or_having are called prior to from(),
-	 * join() and dbprefix is added only if needed.
-	 *
-	 * @param	string	$qb_key	'qb_where' or 'qb_having'
-	 * @return	string	SQL statement
-	 */
 	public function get_compiled_where( $reset = TRUE )
 	{
 		$return = $this->_compile_wh('qb_where');
@@ -2242,19 +1241,6 @@ class HC_Database_Query_Builder {
 		return '';
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Compile GROUP BY
-	 *
-	 * Escapes identifiers in GROUP BY statements at execution time.
-	 *
-	 * Required so that aliases are tracked properly, regardless of wether
-	 * group_by() is called prior to from(), join() and dbprefix is added
-	 * only if needed.
-	 *
-	 * @return	string	SQL statement
-	 */
 	protected function _compile_group_by()
 	{
 		if (count($this->qb_groupby) > 0)
@@ -2278,19 +1264,6 @@ class HC_Database_Query_Builder {
 		return '';
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Compile ORDER BY
-	 *
-	 * Escapes identifiers in ORDER BY statements at execution time.
-	 *
-	 * Required so that aliases are tracked properly, regardless of wether
-	 * order_by() is called prior to from(), join() and dbprefix is added
-	 * only if needed.
-	 *
-	 * @return	string	SQL statement
-	 */
 	protected function _compile_order_by()
 	{
 		if (is_array($this->qb_orderby) && count($this->qb_orderby) > 0)
@@ -2315,16 +1288,6 @@ class HC_Database_Query_Builder {
 		return '';
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Object to Array
-	 *
-	 * Takes an object as input and converts the class variables to array key/vals
-	 *
-	 * @param	object
-	 * @return	array
-	 */
 	protected function _object_to_array($object)
 	{
 		if ( ! is_object($object))
@@ -2345,16 +1308,6 @@ class HC_Database_Query_Builder {
 		return $array;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Object to Array
-	 *
-	 * Takes an object as input and converts the class variables to array key/vals
-	 *
-	 * @param	object
-	 * @return	array
-	 */
 	protected function _object_to_array_batch($object)
 	{
 		if ( ! is_object($object))
@@ -2382,45 +1335,18 @@ class HC_Database_Query_Builder {
 		return $array;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Start Cache
-	 *
-	 * Starts QB caching
-	 *
-	 * @return	CI_DB_query_builder
-	 */
 	public function start_cache()
 	{
 		$this->qb_caching = TRUE;
 		return $this;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Stop Cache
-	 *
-	 * Stops QB caching
-	 *
-	 * @return	CI_DB_query_builder
-	 */
 	public function stop_cache()
 	{
 		$this->qb_caching = FALSE;
 		return $this;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Flush Cache
-	 *
-	 * Empties the QB cache
-	 *
-	 * @return	CI_DB_query_builder
-	 */
 	public function flush_cache()
 	{
 		$this->_reset_run(array(
@@ -2439,16 +1365,6 @@ class HC_Database_Query_Builder {
 		return $this;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Merge Cache
-	 *
-	 * When called, this function merges any cached QB arrays with
-	 * locally called ones.
-	 *
-	 * @return	void
-	 */
 	protected function _merge_cache()
 	{
 		if (count($this->qb_cache_exists) === 0)
@@ -2493,16 +1409,6 @@ class HC_Database_Query_Builder {
 		}
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Is literal
-	 *
-	 * Determines if a string represents a literal value or a field name
-	 *
-	 * @param	string	$str
-	 * @return	bool
-	 */
 	protected function _is_literal($str)
 	{
 		$str = trim($str);
@@ -2523,15 +1429,6 @@ class HC_Database_Query_Builder {
 		return in_array($str[0], $_str, TRUE);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Reset Query Builder values.
-	 *
-	 * Publicly-visible method to reset the QB values.
-	 *
-	 * @return	CI_DB_query_builder
-	 */
 	public function reset_query()
 	{
 		$this->_reset_select();
@@ -2539,14 +1436,6 @@ class HC_Database_Query_Builder {
 		return $this;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Resets the query builder values.  Called by the get() function
-	 *
-	 * @param	array	An array of fields to reset
-	 * @return	void
-	 */
 	protected function _reset_run($qb_reset_items)
 	{
 		foreach ($qb_reset_items as $item => $default_value)
@@ -2555,13 +1444,6 @@ class HC_Database_Query_Builder {
 		}
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Resets the query builder values.  Called by the get() function
-	 *
-	 * @return	void
-	 */
 	protected function _reset_select()
 	{
 		$this->_reset_run(array(
@@ -2581,15 +1463,6 @@ class HC_Database_Query_Builder {
 		));
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Resets the query builder "write" values.
-	 *
-	 * Called by the insert() update() insert_batch() update_batch() and delete() functions
-	 *
-	 * @return	void
-	 */
 	protected function _reset_write()
 	{
 		$this->_reset_run(array(
@@ -2603,60 +1476,21 @@ class HC_Database_Query_Builder {
 		));
 	}
 
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Version number query string
-	 *
-	 * @return	string
-	 */
 	protected function _version()
 	{
 		return 'SELECT VERSION() AS ver';
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Disable Transactions
-	 * This permits transactions to be disabled at run-time.
-	 *
-	 * @return	void
-	 */
 	public function trans_off()
 	{
 		$this->trans_enabled = FALSE;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Enable/disable Transaction Strict Mode
-	 *
-	 * When strict mode is enabled, if you are running multiple groups of
-	 * transactions, if one group fails all subsequent groups will be
-	 * rolled back.
-	 *
-	 * If strict mode is disabled, each group is treated autonomously,
-	 * meaning a failure of one group will not affect any others
-	 *
-	 * @param	bool	$mode = TRUE
-	 * @return	void
-	 */
 	public function trans_strict($mode = TRUE)
 	{
 		$this->trans_strict = is_bool($mode) ? $mode : TRUE;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Start Transaction
-	 *
-	 * @param	bool	$test_mode = FALSE
-	 * @return	bool
-	 */
 	public function trans_start($test_mode = FALSE)
 	{
 		if ( ! $this->trans_enabled)
@@ -2667,13 +1501,6 @@ class HC_Database_Query_Builder {
 		return $this->trans_begin($test_mode);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Complete Transaction
-	 *
-	 * @return	bool
-	 */
 	public function trans_complete()
 	{
 		if ( ! $this->trans_enabled)
@@ -2701,26 +1528,11 @@ class HC_Database_Query_Builder {
 		return $this->trans_commit();
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Lets you retrieve the transaction flag to determine if it has failed
-	 *
-	 * @return	bool
-	 */
 	public function trans_status()
 	{
 		return $this->_trans_status;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Begin Transaction
-	 *
-	 * @param	bool	$test_mode
-	 * @return	bool
-	 */
 	public function trans_begin($test_mode = FALSE)
 	{
 		if ( ! $this->trans_enabled)
@@ -2748,13 +1560,6 @@ class HC_Database_Query_Builder {
 		return FALSE;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Commit Transaction
-	 *
-	 * @return	bool
-	 */
 	public function trans_commit()
 	{
 		if ( ! $this->trans_enabled OR $this->_trans_depth === 0)
@@ -2771,13 +1576,6 @@ class HC_Database_Query_Builder {
 		return FALSE;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Rollback Transaction
-	 *
-	 * @return	bool
-	 */
 	public function trans_rollback()
 	{
 		if ( ! $this->trans_enabled OR $this->_trans_depth === 0)
@@ -2794,15 +1592,6 @@ class HC_Database_Query_Builder {
 		return FALSE;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Compile Bindings
-	 *
-	 * @param	string	the sql statement
-	 * @param	array	an array of bind data
-	 * @return	string
-	 */
 	public function compile_binds($sql, $binds)
 	{
 		if (empty($binds) OR empty($this->bind_marker) OR strpos($sql, $this->bind_marker) === FALSE)
@@ -2859,30 +1648,11 @@ class HC_Database_Query_Builder {
 		return $sql;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Determines if a query is a "write" type.
-	 *
-	 * @param	string	An SQL query string
-	 * @return	bool
-	 */
 	public function is_write_type($sql)
 	{
 		return (bool) preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD|COPY|ALTER|RENAME|GRANT|REVOKE|LOCK|UNLOCK|REINDEX)\s/i', $sql);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * "Smart" Escape String
-	 *
-	 * Escapes data based on type
-	 * Sets boolean and null types
-	 *
-	 * @param	string
-	 * @return	mixed
-	 */
 	public function escape($str)
 	{
 		if (is_array($str))
@@ -2906,15 +1676,6 @@ class HC_Database_Query_Builder {
 		return $str;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Escape String
-	 *
-	 * @param	string|string[]	$str	Input string
-	 * @param	bool	$like	Whether or not the string will be used in a LIKE condition
-	 * @return	string
-	 */
 	public function escape_str($str, $like = FALSE)
 	{
 		if (is_array($str))
@@ -2942,45 +1703,16 @@ class HC_Database_Query_Builder {
 		return $str;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Escape LIKE String
-	 *
-	 * Calls the individual driver for platform
-	 * specific escaping for LIKE conditions
-	 *
-	 * @param	string|string[]
-	 * @return	mixed
-	 */
 	public function escape_like_str($str)
 	{
 		return $this->escape_str($str, TRUE);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Platform-dependant string escape
-	 *
-	 * @param	string
-	 * @return	string
-	 */
 	protected function _escape_str($str)
 	{
 		return str_replace("'", "''", hc_remove_invisible_characters($str));
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Escape the SQL Identifiers
-	 *
-	 * This function escapes column and table names
-	 *
-	 * @param	mixed
-	 * @return	mixed
-	 */
 	public function escape_identifiers($item)
 	{
 		if ($this->_escape_char === '' OR empty($item) OR in_array($item, $this->_reserved_identifiers))
@@ -3033,15 +1765,6 @@ class HC_Database_Query_Builder {
 		return preg_replace('/'.$preg_ec[0].'?([^'.$preg_ec[1].'\.]+)'.$preg_ec[1].'?(\.)?/i', $preg_ec[2].'$1'.$preg_ec[3].'$2', $item);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Generate an insert string
-	 *
-	 * @param	string	the table upon which the query will be performed
-	 * @param	array	an associative array data of key/values
-	 * @return	string
-	 */
 	public function insert_string($table, $data)
 	{
 		$fields = $values = array();
@@ -3055,33 +1778,11 @@ class HC_Database_Query_Builder {
 		return $this->_insert($this->protect_identifiers($table, TRUE, NULL, FALSE), $fields, $values);
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Insert statement
-	 *
-	 * Generates a platform-specific insert string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
-	 * @return	string
-	 */
 	protected function _insert($table, $keys, $values)
 	{
 		return 'INSERT INTO '.$table.' ('.implode(', ', $keys).') VALUES ('.implode(', ', $values).')';
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Generate an update string
-	 *
-	 * @param	string	the table upon which the query will be performed
-	 * @param	array	an associative array data of key/values
-	 * @param	mixed	the "where" statement
-	 * @return	string
-	 */
 	public function update_string($table, $data, $where)
 	{
 		if (empty($where))
@@ -3102,17 +1803,6 @@ class HC_Database_Query_Builder {
 		return $sql;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Update statement
-	 *
-	 * Generates a platform-specific update string from the supplied data
-	 *
-	 * @param	string	the table name
-	 * @param	array	the update data
-	 * @return	string
-	 */
 	protected function _update($table, $values)
 	{
 		foreach ($values as $key => $val)
@@ -3126,27 +1816,11 @@ class HC_Database_Query_Builder {
 			.($this->qb_limit ? ' LIMIT '.$this->qb_limit : '');
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Tests whether the string has an SQL operator
-	 *
-	 * @param	string
-	 * @return	bool
-	 */
 	protected function _has_operator($str)
 	{
 		return (bool) preg_match('/(<|>|!|=|\sIS NULL|\sIS NOT NULL|\sEXISTS|\sBETWEEN|\sLIKE|\sIN\s*\(|\s)/i', trim($str));
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Returns the SQL string operator
-	 *
-	 * @param	string
-	 * @return	string
-	 */
 	protected function _get_operator($str)
 	{
 		static $_operators;
@@ -3177,34 +1851,6 @@ class HC_Database_Query_Builder {
 			? $match[0] : FALSE;
 	}
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Protect Identifiers
-	 *
-	 * This function is used extensively by the Query Builder class, and by
-	 * a couple functions in this class.
-	 * It takes a column or table name (optionally with an alias) and inserts
-	 * the table prefix onto it. Some logic is necessary in order to deal with
-	 * column names that include the path. Consider a query like this:
-	 *
-	 * SELECT hostname.database.table.column AS c FROM hostname.database.table
-	 *
-	 * Or a query with aliasing:
-	 *
-	 * SELECT m.member_id, m.member_name FROM members AS m
-	 *
-	 * Since the column name can include up to four segments (host, DB, table, column)
-	 * or also have an alias prefix, we need to do a bit of work to figure this out and
-	 * insert the table prefix (if it exists) in the proper position, and escape only
-	 * the correct identifiers.
-	 *
-	 * @param	string
-	 * @param	bool
-	 * @param	mixed
-	 * @param	bool
-	 * @return	string
-	 */
 	public function protect_identifiers($item, $prefix_single = FALSE, $protect_identifiers = NULL, $field_exists = TRUE)
 	{
 		if ( ! is_bool($protect_identifiers))
@@ -3378,10 +2024,8 @@ class HC_Database_Query_Builder {
 				// Found it - use a relative path for safety
 				$safe_file_name = str_replace(array(), '', $call['file']);
 				$safe_file_name = basename( $safe_file_name );
-
 				// $message[] = 'Filename: ' . $safe_file_name;
 				// $message[] = 'Line Number: '. $call['line'];
-
 				break;
 			}
 		}
