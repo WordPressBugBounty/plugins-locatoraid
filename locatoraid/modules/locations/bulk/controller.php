@@ -18,6 +18,11 @@ class Locations_Bulk_Controller_LC_HC_MVC extends _HC_MVC
 				;
 		}
 
+        if (!is_admin()) {
+            echo 'allowed in admin only';
+            exit;
+        }
+
 		$action = $values['action'];
 
 		switch( $action ){
@@ -69,7 +74,7 @@ class Locations_Bulk_Controller_LC_HC_MVC extends _HC_MVC
 
 	protected function _execute_resetcoord( $values )
 	{
-		$command = $this->app->make('/locations/commands/update');
+        $command = $this->app->make('/locations/commands/update');
 
 		$v = array(
 			'latitude'	=> NULL, 

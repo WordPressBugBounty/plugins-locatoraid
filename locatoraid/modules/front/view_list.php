@@ -53,7 +53,9 @@ class Front_View_List_LC_HC_MVC extends _HC_MVC
 
 		foreach( $params as $k => $v ){
 			$k = strtolower($k);
-			$v = strtolower($v);
+            if (!in_array($k, ['empty-group-label'])){
+                $v = strtolower($v);
+            }
 
 			if( isset($allowed_params[$k]) ){
 				if( ! in_array($v, $allowed_params[$k]) ){

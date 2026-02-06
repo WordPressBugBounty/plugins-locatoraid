@@ -303,6 +303,25 @@ $tag = 'locatoraid';
 	</li>
 
 	<li class="hc-mt3">
+		<h3 class="hc-underline">empty-group-label</h3>
+		<ul class="hc-ml3">
+			<li>
+				<?php echo __('If the search results are grouped by a property, and this property is empty for a certain location, then this value will be used as the group label.', 'locatoraid'); ?>
+			</li>
+			<li>
+				<?php echo __('Default', 'locatoraid'); ?>: <em><?php echo __('Uncategorized', 'locatoraid'); ?></em>
+			</li>
+
+			<li class="hc-p2">
+				<code class="hc-p2">
+				[<?php echo $tag; ?> group="state" empty-group-label="No state"]
+				</code>
+			</li>
+		</ul>
+	</li>
+
+
+	<li class="hc-mt3">
 		<h3 class="hc-underline">group-jump</h3>
 		<ul class="hc-ml3">
 			<li>

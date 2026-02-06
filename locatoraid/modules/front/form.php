@@ -3,7 +3,7 @@ class Front_Form_LC_HC_MVC extends _HC_MVC
 {
 	public function inputs()
 	{
-		$return = array();
+		$ret = array();
 
 		$app_settings = $this->app->make('/app/settings');
 		$label = $app_settings->get('front_text:search_field');
@@ -14,14 +14,14 @@ class Front_Form_LC_HC_MVC extends _HC_MVC
 			$label = __($label, 'locatoraid');
 		}
 
-		$return['search'] = $this->app->make('/form/text')
+		$ret['search'] = $this->app->make('/form/text')
 			->set_label( $label )
 			;
 
-		$return = $this->app
-			->after( $this, $return )
+		$ret = $this->app
+			->after( $this, $ret )
 			;
 
-		return $return;
+		return $ret;
 	}
 }

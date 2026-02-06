@@ -23,6 +23,14 @@ class Locations_Edit_View_Layout_LC_HC_MVC extends _HC_MVC
 			->after( array($this, __FUNCTION__), $return, $model )
 			;
 
+		$return['new'] = 
+			$this->app->make('/html/ahref')
+				->to('/locations/new')
+				->add( $this->app->make('/html/icon')->icon('plus') )
+				->add( __('Add new location', 'locatoraid') )
+			;
+
+
 		return $return;
 	}
 

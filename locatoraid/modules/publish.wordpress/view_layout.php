@@ -3,14 +3,14 @@ class Publish_Wordpress_View_Layout_LC_HC_MVC extends _HC_MVC
 {
 	public function header()
 	{
-		$return = __('Publish', 'locatoraid');
-		return $return;
+		$ret = __('Publish', 'locatoraid');
+		return $ret;
 	}
 
 	public function menubar()
 	{
-		$return = array();
-		return $return;
+		$ret = array();
+		return $ret;
 	}
 
 	public function render( $content )

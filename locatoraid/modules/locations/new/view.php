@@ -6,8 +6,30 @@ class Locations_New_View_LC_HC_MVC extends _HC_MVC
 		$form = $this->app->make('/locations/form');
 
 		$helper = $this->app->make('/form/helper');
+        $inputs = $form->inputs();
 
-		$inputs_view = $helper->prepare_render( $form->inputs() );
+        $nextOptions = array(
+            '..' => __('View the new location', 'locatoraid'),
+            '.' => __('Add another location', 'locatoraid')
+        );
+
+        $inputs['latitude'] = array(
+            'input' => $this->app->make('/form/text'),
+            'label' => __('Latitude', 'locatoraid') . ' (' . __('Optional', 'locatoraid') . ')',
+            );
+
+        $inputs['longitude'] = array(
+            'input' => $this->app->make('/form/text'),
+            'label' => __('Longitude', 'locatoraid') . ' (' . __('Optional', 'locatoraid') . ')',
+            'help' => __('If you already have this location coordinates, enter them now. Otherwise leave these fields blank, and it will attempt to automatically locate the coordinates in the next step.', 'locatoraid')
+        );
+
+        $inputs['next'] = array(
+            'input' => $this->app->make('/form/radio')->set_options($nextOptions),
+            'label' => __('Next action', 'locatoraid'),
+        );
+
+		$inputs_view = $helper->prepare_render($inputs);
 		$out_inputs = $helper->render_inputs( 
 			$inputs_view,
 			array(

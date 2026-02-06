@@ -3,6 +3,11 @@ class Locations_Coordinates_Index_Controller_Update_LC_HC_MVC extends _HC_MVC
 {
 	public function execute( $id )
 	{
+        if (!is_admin()) {
+            echo 'allowed in admin only';
+            exit;
+        }
+
 		$post = $this->app->make('/input/lib')->post();
 
 		$inputs = $this->app->make('/locations.coordinates/form')

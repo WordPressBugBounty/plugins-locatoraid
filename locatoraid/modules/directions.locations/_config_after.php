@@ -1,11 +1,11 @@
 <?php if (! defined('ABSPATH')) exit; // Exit if accessed directly
-$config['after']['/locations/presenter->fields'][] = function( $app, $ret )
+$config['after']['/locations/presenter->fields'][] = function($app, $ret)
 {
 	$ret['directions'] = __('Directions', 'locatoraid');
 	return $ret;
 };
 
-$config['after']['/locations/presenter->present_front'][] = function( $app, $ret, $search, $search_coordinates )
+$config['after']['/locations/presenter->present_front'][] = function($app, $ret, $search, $search_coordinates)
 {
 	if( ! ($ret['latitude'] && $ret['longitude']) ){
 		return $ret;

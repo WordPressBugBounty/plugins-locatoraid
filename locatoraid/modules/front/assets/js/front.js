@@ -546,10 +546,13 @@ this.list = function( $this )
 	var self = this;
 	this.observers = new observers;
 
+console.log($this.data);
+
 	this.params = {
 		'group'	:	$this.data('group'),
 		'groupJump'	:	$this.data('group-jump'),
-		'sort' 	:	$this.data('sort')
+		'sort' 	:	$this.data('sort'),
+        'emptyGroupLabel':	$this.data('empty-group-label')
 	};
 
 	self.template = jQuery( '#' + html_id + '_template' ).html();
@@ -618,6 +621,10 @@ this.list = function( $this )
 		var group_by = this.params['group'];
 		var showJump = this.params['groupJump'] ? true : false;
 		var groups = {};
+		var emptyGroupLabel = this.params['emptyGroupLabel'];
+        if( typeof emptyGroupLabel === 'undefined' ){
+            emptyGroupLabel = '';
+        }
 
 		if( group_by ){
 			for( var ii = 0; ii < entries.length; ii++ ){
@@ -682,7 +689,10 @@ this.list = function( $this )
 					var groupLabelView = '<h4 id="locatoraid-list-group-' + kk + '">' + group_label + '</h4>';
 				}
 				$this.append( groupLabelView );
-			}
+			} else {
+                var groupLabelView = '<h4 id="locatoraid-list-group-' + kk + '">' + emptyGroupLabel + '</h4>';
+				$this.append( groupLabelView );
+            }
 
 			for( var jj = 0; jj < groups[group_label].length; jj++ ){
 				var ii = groups[group_label][jj];

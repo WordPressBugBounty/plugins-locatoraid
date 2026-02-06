@@ -3,6 +3,11 @@ class Locations_Coordinates_Index_Controller_Reset_LC_HC_MVC extends _HC_MVC
 {
 	public function execute( $id )
 	{
+        if (!is_admin()) {
+            echo 'allowed in admin only';
+            exit;
+        }
+
 	/* API */
 		$values = array(
 			'latitude'	=> NULL, 

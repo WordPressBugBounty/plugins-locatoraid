@@ -121,8 +121,18 @@ class Form_Helper_HC_MVC extends _HC_MVC
 		$id = 'hc2_' . hc_random();
 
 		$session = $this->app->make('/session/lib');
-
 		$session_values = $session->flashdata('form_values');
+
+		$uri = $this->app->make('/http/uri');
+		$skip_form_flash = $uri->param('noflashform');
+        if ($skip_form_flash) {
+            if (isset($session_values['next'])) {
+                $session_values = array('next' => $session_values['next']);
+            } else {
+                $session_values = array();
+            }
+        }
+
 		$entered_values = $session_values ? $session_values : array();
 		if( $entered_values ){
 			$values = array_merge( $values, $entered_values );

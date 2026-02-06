@@ -1,5 +1,5 @@
 <?php if (! defined('ABSPATH')) exit; // Exit if accessed directly
-$config['after']['/front/view'][] = function( $app, $ret )
+$config['after']['/front/view'][] = function($app, $ret)
 {
 	$app_settings = $app->make('/app/settings');
 

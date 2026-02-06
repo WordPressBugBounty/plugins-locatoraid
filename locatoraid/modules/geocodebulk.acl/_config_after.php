@@ -1,14 +1,14 @@
 <?php if (! defined('ABSPATH')) exit; // Exit if accessed directly
-$config['after']['/root/link'][] = function( $app, $return )
+$config['after']['/root/link'][] = function( $app, $ret )
 {
-	if( ! $return ){
-		return $return;
+	if( ! $ret ){
+		return $ret;
 	}
 
 	// check module
 	$module = 'geocodebulk';
-	if( ($module != $return) && (substr($return, 0, strlen($module . '/')) != $module . '/') ){
-		return $return;
+	if( ($module != $ret) && (substr($ret, 0, strlen($module . '/')) != $module . '/') ){
+		return $ret;
 	}
 
 	// check admin
@@ -19,9 +19,10 @@ $config['after']['/root/link'][] = function( $app, $return )
 		->has_role( $logged_in, 'admin')
 		;
 	if( $is_admin ){
-		return $return;
+		return $ret;
 	}
 
-	$return = FALSE;
-	return $return;
+	$ret = false;
+
+	return $ret;
 };

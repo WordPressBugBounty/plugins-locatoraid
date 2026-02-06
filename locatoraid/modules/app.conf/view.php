@@ -6,8 +6,6 @@ class App_Conf_View_LC_HC_MVC extends _HC_MVC
 		$form = $this->app->make('/app.conf/form');
 		$to = '/app.conf/update';
 
-		return $this->app->make('/conf/view')
-			->render( $form, $to )
-			;
+		return $this->app->make('/conf/view')->render($form, $to);
 	}
 }

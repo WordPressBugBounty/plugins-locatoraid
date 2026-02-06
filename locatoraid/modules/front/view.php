@@ -17,6 +17,7 @@ class Front_View_LC_HC_MVC extends _HC_MVC
 			'limit'			=> 2000,
 
 			'group'			=> NULL,
+			'empty-group-label' => __('Uncategorized', 'locatoraid'),
 			'group-jump'	=> 0,
 			'list-group'	=> NULL,
 			'sort'			=> NULL,
@@ -285,7 +286,7 @@ class Front_View_LC_HC_MVC extends _HC_MVC
 		}
 
 		if( in_array('list', $layout) ){
-			$need_list_params = array('group', 'group-jump', 'list-style');
+			$need_list_params = array('group', 'group-jump', 'list-style', 'empty-group-label');
 			$list_params = array();
 			foreach( $params as $k => $v ){
 				if( ! in_array($k, $need_list_params) ){

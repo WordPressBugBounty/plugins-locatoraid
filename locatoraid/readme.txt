@@ -1,20 +1,18 @@
 === Locatoraid Store Locator ===
 Plugin URI: https://www.locatoraid.com
 Contributors: Plainware
-Tags: map, store locator, store finder, google maps, zip code
+Tags: dealer locator, geocoding, store locator, location finder, zip code
 License: GPLv2 or later
-Stable tag: 3.9.62
+Stable tag: 3.9.66
 Requires at least: 3.3
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 5.3
 
-A lightweight, easy-to-use store locator plugin. Premium version adds CSV imports, custom fields, custom map markers, location categories and more.
+A lightweight, reliable store locator backed by ongoing maintenance, updates, and support. Premium version adds CSV import, custom fields, custom map markers, location categories and more.
 
 == Description ==
 
-Locatoraid is a lightweight, easy-to-use store locator plugin.
-
-Let your customers find your stores, dealers, hotels, restaurants, ATMs, products, or any other types of locations. Autolocate visitor position to offer your nearest options.
+Locatoraid is a lightweight, easy-to-use store locator plugin. Let your customers quickly find your stores, dealers, hotels, restaurants, ATMs, products, or any other types of locations.
 
 __Start In Minutes__
 Just start adding your locations, then the automatic geocoding function finds the coordinates, and your locations are on the map waiting for your customers!
@@ -88,6 +86,20 @@ Go to WordPress admin -> Appearance -> Customize, then click Additional CSS, and
 The upgrade is simple - upload everything up again to your `/wp-content/plugins/` directory, then go to the Locatoraid menu item in the admin panel. It will automatically start the upgrade process if any needed.
 
 == Changelog ==
+
+= 3.9.66 =
+Code cleanup and minor fixes.
+
+= 3.9.65 =
+Added an option to provide a custom group label for locations that don't have a property used to group results.
+
+= 3.9.64 =
+Added an option to enter new location coordinates right in the new form if they are already known.
+Added an option to either view the new location or create another location after adding a new one.
+Added a link to add a new location from editing an existing location form.
+
+= 3.9.63 =
+Code cleanup and minor fixes.
 
 = 3.9.62 =
 Code cleanup and minor fixes.

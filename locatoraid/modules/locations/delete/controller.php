@@ -3,6 +3,11 @@ class Locations_Delete_Controller_LC_HC_MVC extends _HC_MVC
 {
 	public function execute( $id )
 	{
+        if (!is_admin()) {
+            echo 'allowed in admin only';
+            exit;
+        }
+
 		$command = $this->app->make('/locations/commands/delete');
 		$response = $command
 			->execute( $id )
