@@ -309,7 +309,7 @@ $tag = 'locatoraid';
 				<?php echo __('If the search results are grouped by a property, and this property is empty for a certain location, then this value will be used as the group label.', 'locatoraid'); ?>
 			</li>
 			<li>
-				<?php echo __('Default', 'locatoraid'); ?>: <em><?php echo __('Uncategorized', 'locatoraid'); ?></em>
+				<?php echo __('Default', 'locatoraid'); ?>: <em><?php echo __('Empty string', 'locatoraid'); ?></em>
 			</li>
 
 			<li class="hc-p2">

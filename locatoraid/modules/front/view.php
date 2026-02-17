@@ -17,7 +17,8 @@ class Front_View_LC_HC_MVC extends _HC_MVC
 			'limit'			=> 2000,
 
 			'group'			=> NULL,
-			'empty-group-label' => __('Uncategorized', 'locatoraid'),
+			// 'empty-group-label' => __('Uncategorized', 'locatoraid'),
+			'empty-group-label' => '',
 			'group-jump'	=> 0,
 			'list-group'	=> NULL,
 			'sort'			=> NULL,

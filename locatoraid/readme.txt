@@ -3,7 +3,7 @@ Plugin URI: https://www.locatoraid.com
 Contributors: Plainware
 Tags: dealer locator, geocoding, store locator, location finder, zip code
 License: GPLv2 or later
-Stable tag: 3.9.66
+Stable tag: 3.9.67
 Requires at least: 3.3
 Tested up to: 6.9
 Requires PHP: 5.3
@@ -86,6 +86,9 @@ Go to WordPress admin -> Appearance -> Customize, then click Additional CSS, and
 The upgrade is simple - upload everything up again to your `/wp-content/plugins/` directory, then go to the Locatoraid menu item in the admin panel. It will automatically start the upgrade process if any needed.
 
 == Changelog ==
+
+= 3.9.67 =
+Set the default group label to the empty string as the "Uncategorized" option were confusing for most users.
 
 = 3.9.66 =
 Code cleanup and minor fixes.

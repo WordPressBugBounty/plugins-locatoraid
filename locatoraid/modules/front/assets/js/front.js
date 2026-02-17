@@ -690,8 +690,10 @@ console.log($this.data);
 				}
 				$this.append( groupLabelView );
 			} else {
-                var groupLabelView = '<h4 id="locatoraid-list-group-' + kk + '">' + emptyGroupLabel + '</h4>';
-				$this.append( groupLabelView );
+                if (emptyGroupLabel.length) {
+                    var groupLabelView = '<h4 id="locatoraid-list-group-' + kk + '">' + emptyGroupLabel + '</h4>';
+                    $this.append( groupLabelView );
+                }
             }
 
 			for( var jj = 0; jj < groups[group_label].length; jj++ ){
