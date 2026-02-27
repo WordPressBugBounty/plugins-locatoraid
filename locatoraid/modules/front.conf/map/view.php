@@ -54,6 +54,15 @@ class Front_Conf_Map_View_LC_HC_MVC extends _HC_MVC
 		else {
 			$out_inputs = $this->_render_simple( $inputs_view );
 
+            $inputs2_view = array('front_map:linktolist' => $inputs_view['front_map:linktolist']);
+            $out_linktolist = $helper->render_inputs( $inputs2_view );
+
+            $out_inputs = $this->app->make('/html/list')
+                ->set_gutter(2)
+                ->add($out_inputs)
+                ->add($out_linktolist)
+                ;
+
 			$links
 				->add(
 					$this->app->make('/html/ahref')

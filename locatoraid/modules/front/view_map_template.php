@@ -23,6 +23,12 @@ class Front_View_Map_Template_LC_HC_MVC extends _HC_MVC
 			$out[] = '<div class="hc-italic lpr-location-address">{{=address}}</div>';
 		}
 
+		$thisFieldPname = 'front_map:' . 'linktolist';
+		$thisFieldShow = $app_settings->get( $thisFieldPname );
+		if( $thisFieldShow ){
+			$out[] = '<div class="lpr-location-linktolist">{{=linktolist}}</div>';
+		}
+
 		if( array_key_exists('distance', $fields) ){
 			$out[] = '{{distance}}';
 

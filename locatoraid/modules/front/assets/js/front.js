@@ -542,11 +542,12 @@ this.form = function( $this )
 this.list = function( $this )
 {
 	var html_id = $this.attr('id');
+    this.html_id = html_id;
 	// var $this = jQuery( '#' + html_id );
 	var self = this;
 	this.observers = new observers;
 
-console.log($this.data);
+// console.log($this.data);
 
 	this.params = {
 		'group'	:	$this.data('group'),
@@ -750,14 +751,13 @@ console.log($this.data);
 
 	this.scroll_to = function( id )
 	{
-
 		var ids = Array.isArray(id) ? id : [id];
 		var thisId = ids[0];
 
 		var $container = self.entries[ thisId ];
 		var new_top = $this.scrollTop() + $container.position().top;
 		$this.scrollTop( new_top );
-	}
+    }
 
 	this.highlight = function( id )
 	{
@@ -775,14 +775,17 @@ console.log($this.data);
 	}
 }
 
-this.map = function( $this )
+this.map = function( $this, myList )
 // this.map = function( html_id )
 {
 	var html_id = $this.attr('id');
 	// var $this = jQuery( '#' + html_id );
+    this.html_id = html_id;
 	var self = this;
 	this.observers = new observers;
+    this.myList = myList;
 	$this.hide();
+	this.linkToListLabel = $this.data('linktolist-label');
 
 	self.template = jQuery( '#' + html_id + '_template' ).html();
 
@@ -1124,6 +1127,7 @@ this.map = function( $this )
 	this.render_info = function( thisId )
 	{
 		var template = new Hc2Template( self.template );
+        var listHtmlId = self.myList.html_id;
 
 		if( Array.isArray(thisId) ){
 			var thisMarker;
@@ -1137,6 +1141,8 @@ this.map = function( $this )
 				thisMarker = self.markersByPosition[ positionIndex ];
 
 				var templateVars = thisLoc;
+                templateVars.linktolist = '<a onclick="document.getElementById(\'' + listHtmlId + '\').scrollIntoView(); return false;">' + this.linkToListLabel + '</a>';
+
 				var thisLocView = template.render( templateVars );
 
 				var $thisLocView = jQuery('<div>').html( thisLocView );
@@ -1165,6 +1171,8 @@ this.map = function( $this )
 
 			var thisLoc = self.entries[ thisId ];
 			var templateVars = thisLoc;
+            templateVars.linktolist = '<a onclick="document.getElementById(\'' + listHtmlId + '\').scrollIntoView(); return false;">' + this.linkToListLabel + '</a>';
+
 			var thisLocView = template.render( templateVars );
 
 			var $thisLocView = jQuery('<div>').html( thisLocView );
@@ -1221,7 +1229,7 @@ jQuery(document).on('hc2-gmaps-loaded', function()
 	for( ii = 0; ii < forms.length; ii++ ){
 		var form = new self.form( jQuery(forms[ii]) );
 		var list = new self.list( jQuery(lists[ii]) );
-		var map = new self.map( jQuery(maps[ii]) );
+		var map = new self.map( jQuery(maps[ii]), list );
 
 		form.observers.add( map );
 		form.observers.add( list );

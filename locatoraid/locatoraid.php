@@ -3,7 +3,7 @@
 Plugin Name: Locatoraid
 Plugin URI: https://www.locatoraid.com/
 Description: Store locator plugin
-Version: 3.9.67
+Version: 3.9.68
 Author: plainware.com
 Author URI: https://www.locatoraid.com/
 Text Domain: locatoraid
@@ -11,7 +11,7 @@ Domain Path: /languages/
 */
 
 if( ! defined('LC3_VERSION') ){
-	define( 'LC3_VERSION', 3967 );
+	define( 'LC3_VERSION', 3968 );
 }
 
 if (! defined('ABSPATH')) exit; // Exit if accessed directly

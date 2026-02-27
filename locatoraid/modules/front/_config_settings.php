@@ -50,3 +50,4 @@ $config['settings']['front_text:my_location'] = 'My Location';
 $config['settings']['front_text:reset_my_location'] = 'Reset';
 
 $config['settings']['front:show_credits'] = true;
+$config['settings']['front_map:linktolist'] = '';

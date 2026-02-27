@@ -30,13 +30,16 @@ class Front_View_Map_LC_HC_MVC extends _HC_MVC
 			$map_attr['data-hide-loc-title'] = $params['map-hide-loc-title'];
 		}
 
+		$app_settings = $this->app->make('/app/settings');
+
+        $map_attr['data-linktolist-label'] = $app_settings->get('front_map:linktolist');
+
 		foreach( $map_attr as $k => $v ){
 			$div
 				->add_attr( $k, $v )
 				;
 		}
 
-		$app_settings = $this->app->make('/app/settings');
 		$template = $app_settings->get('front_map:template');
 		$template = htmlspecialchars( $template );
 

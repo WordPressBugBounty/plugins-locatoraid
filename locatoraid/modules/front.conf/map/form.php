@@ -37,6 +37,15 @@ class Front_Conf_Map_Form_LC_HC_MVC extends _HC_MVC
 			}
 		}
 
+		$return['front_map:linktolist'] = array(
+			'input'	=> $this->app->make('/form/text'),
+			'label'	=> __('More info link label', 'locatoraid'),
+			'help'	=> __('On click it will scroll to the results list. Leave blank to hide.', 'locatoraid'),
+        );
+
+
+		// $return['front_map:linktolist'] = $this->app->make('/form/text');
+
 		return $return;
 	}
 }
