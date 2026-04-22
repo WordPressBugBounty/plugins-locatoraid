@@ -16,11 +16,28 @@ class Http_Uri_HC_MVC extends _HC_MVC
 	private $params = array();
 	private $slug = '';
 	private $args = NULL;
+    private array $forceCasting = array();
 
 	public function __construct()
 	{
 		$this->from_url( $this->current() );
+
+        $this
+            ->forceCasting('lat', 'float')
+            ->forceCasting('lng', 'float')
+            ->forceCasting('limit', 'int')
+            ->forceCasting('radius', 'int')
+            ->forceCasting('offset', 'int')
+            ;
 	}
+
+    public function forceCasting($paramName, $type): self
+    {
+        $this->forceCasting[$paramName] = $type;
+
+        return $this;
+    }
+
 	public function single_instance()
 	{
 	}
@@ -82,6 +99,16 @@ class Http_Uri_HC_MVC extends _HC_MVC
 		$this->raw_params	= $parsed['raw_params'];
 		$this->params		= $parsed['params'];
 		$this->base_params	= $parsed['base_params'];
+
+        foreach ($this->forceCasting as $pname => $type) {
+            if (array_key_exists($pname, $this->params)) {
+                if ('float' == $type) {
+                    $this->params[$pname] = (float) $this->params[$pname];
+                } elseif ('int' == $type) {
+                    $this->params[$pname] = (int) $this->params[$pname];
+                }
+            }
+        }
 
 		return $this;
 	}

@@ -171,6 +171,10 @@ ini_set( 'display_errors', false );
 			$productAnd = $appSettings->get( 'front:product:result_and' );
 		}
 
+        if (null === $search) {
+            $search = '';
+        }
+
 		$exact_results = array();
 		if( strlen($search) ){
 			$exact_search_in = array( 'name', 'zip', 'state', 'city', 'country' );
@@ -288,6 +292,9 @@ ini_set( 'display_errors', false );
 			}
 		}
 		else {
+            if (null === $geoResults) {
+                $geoResults = array();
+            }
 			$results = $results + $geoResults;
 
 			if( (! $geoResults) && $match_results ){

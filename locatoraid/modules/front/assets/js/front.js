@@ -708,10 +708,13 @@ this.list = function( $this )
 // console.log( this_loc_view );
 
 				// var $this_loc_view = jQuery( this_loc_view );
+
+                var thisLocHtmlId = this.html_id + '-' + this_loc['id'];
 				var $thisLocView = jQuery('<div>').html( this_loc_view );
 				$thisLocView
 					.data( 'location-id', this_loc['id'] )
 					.data( 'location', this_loc )
+                    .attr('id', thisLocHtmlId)
 					;
 
 				self.entries[ this_loc['id'] ] = $thisLocView;
@@ -1141,7 +1144,8 @@ this.map = function( $this, myList )
 				thisMarker = self.markersByPosition[ positionIndex ];
 
 				var templateVars = thisLoc;
-                templateVars.linktolist = '<a onclick="document.getElementById(\'' + listHtmlId + '\').scrollIntoView(); return false;">' + this.linkToListLabel + '</a>';
+                var thisLocHtmlId = listHtmlId + '-' + thisThisId;
+                templateVars.linktolist = '<a onclick="document.getElementById(\'' + thisLocHtmlId + '\').scrollIntoView(); return false;">' + this.linkToListLabel + '</a>';
 
 				var thisLocView = template.render( templateVars );
 
@@ -1171,7 +1175,9 @@ this.map = function( $this, myList )
 
 			var thisLoc = self.entries[ thisId ];
 			var templateVars = thisLoc;
-            templateVars.linktolist = '<a onclick="document.getElementById(\'' + listHtmlId + '\').scrollIntoView(); return false;">' + this.linkToListLabel + '</a>';
+
+            var thisLocHtmlId = listHtmlId + '-' + thisThisId;
+            templateVars.linktolist = '<a onclick="document.getElementById(\'' + thisLocHtmlId + '\').scrollIntoView(); return false;">' + this.linkToListLabel + '</a>';
 
 			var thisLocView = template.render( templateVars );
 
