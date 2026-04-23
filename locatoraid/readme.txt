@@ -3,7 +3,7 @@ Plugin URI: https://www.locatoraid.com
 Contributors: Plainware
 Tags: dealer locator, geocoding, store locator, location finder, zip code
 License: GPLv2 or later
-Stable tag: 3.9.69
+Stable tag: 3.9.70
 Requires at least: 3.3
 Tested up to: 6.9
 Requires PHP: 5.3
@@ -87,8 +87,11 @@ The upgrade is simple - upload everything up again to your `/wp-content/plugins/
 
 == Changelog ==
 
+= 3.9.70 =
+Minor fixes.
+
 = 3.9.69 =
-* Security update.
+Security update.
 
 = 3.9.68 =
 Added an option to add a "Click for more details" link to the map info box that will lead to the respective entry in the results list. It can be helpful if the information in the list is more detailed that the map's info box.

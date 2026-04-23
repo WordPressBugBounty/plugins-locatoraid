@@ -101,13 +101,17 @@ class Http_Uri_HC_MVC extends _HC_MVC
 		$this->base_params	= $parsed['base_params'];
 
         foreach ($this->forceCasting as $pname => $type) {
-            if (array_key_exists($pname, $this->params)) {
-                if ('float' == $type) {
-                    $this->params[$pname] = (float) $this->params[$pname];
-                } elseif ('int' == $type) {
-                    $this->params[$pname] = (int) $this->params[$pname];
-                }
+            if (!array_key_exists($pname, $this->params)) {
+                continue;
             }
+
+            $v = $this->params[$pname];
+            if ('float' == $type) {
+                $v =  is_array($v) ? array_map('floatval', $v) : (float) $v;
+            } elseif ('int' == $type) {
+                $v =  is_array($v) ? array_map('intval', $v) : (int) $v;
+            }
+            $this->params[$pname] = $v;
         }
 
 		return $this;
