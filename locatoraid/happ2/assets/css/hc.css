@@ -880,8 +880,14 @@ line-height: inherit;
 font-weight: normal;
 }
 
-#hc-app div.hc-valign-middle > input[type=radio], #hc-app div.hc-valign-middle > input[type=checkbox] { margin-right: .25em; }
+#hc-app div.hc-valign-middle > input[type=radio], #hc-app div.hc-valign-middle > input[type=checkbox] {margin-right: .25em;}
+#hc-app div.hc-valign-middle > input[type=radio] {display: flex;}
+#hc-app div.hc-nowrap {overflow: visible;}
+#hc-app div.hc-nowrap * {overflow: hidden;}
+#hc-app div.hc-nowrap .hc-valign-middle {overflow: visible;}
+
 #hc-app code { display: block; margin-bottom: .25em; }
+#hc-app button, #hc-app select, #hc-app option, #hc-app label[for], #hc-app input[type=checkbox], #hc-app input[type=radio] {cursor: pointer;}
 
 #hc-app .form-table td { padding: .25em; }
 .hc-app-container { padding: 0 .25em; }
