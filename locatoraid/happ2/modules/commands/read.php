@@ -164,7 +164,7 @@ class Commands_Read_HC_MVC extends _HC_MVC
 						}
 
 						if( ! in_array($sort_how, array('asc', 'desc')) ){
-							echo "SORTING '$sort_how' IS NOT ALLOWED, ONLY ASC OR DESC!<br>";
+							// echo "SORTING '$sort_how' IS NOT ALLOWED, ONLY ASC OR DESC!<br>";
 							$sort_how = 'asc';
 						}
 						$return['SORT'][] = array( $sort_by, $sort_how );
@@ -295,7 +295,13 @@ class Commands_Read_HC_MVC extends _HC_MVC
 
 		if( $args['SORT'] ){
 			foreach( $args['SORT'] as $s ){
-				$q->order_by( $s[0], $s[1] );
+                if (preg_match('/[^a-z0-9_]/', $s[0])) {
+                    continue;
+                }
+                if (!in_array($s[1], array('asc', 'desc'))) {
+                    continue;
+                }
+                $q->order_by( $s[0], $s[1] );
 			}
 		}
 
