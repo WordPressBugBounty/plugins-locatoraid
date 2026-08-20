@@ -1710,6 +1710,7 @@ class HC_Database_Query_Builder {
 
 	protected function _escape_str($str)
 	{
+        $str = str_replace("\\", "\\\\", $str);
 		return str_replace("'", "''", hc_remove_invisible_characters($str));
 	}
 
