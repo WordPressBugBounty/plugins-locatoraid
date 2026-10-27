@@ -175,16 +175,20 @@ ini_set( 'display_errors', FALSE );
 		$match_results = NULL;
 		if( ! $exact_results ){
 			if( strlen($search) ){
-				$match_args = $command_args;
-				// $match_args[] = array('name', '=', $search);
-				$match_args[] = array('with', '-all-');
-				$match_args[] = array('search', $search);
+            // do fuzzy search only if not all-digit search like for zip code, which can be mixed with home address
+                $fuzzySearch = preg_match('/\D/', $search) ? $search : '';
+                if (strlen($fuzzySearch)) {
+                    $match_args = $command_args;
+                    // $match_args[] = array('name', '=', $search);
+                    $match_args[] = array('with', '-all-');
+                    $match_args[] = array('search', $search);
 
-				$match_results = $command->execute( $match_args );
+                    $match_results = $command->execute( $match_args );
 
-				if( $haveProduct ){
-					$match_results = $this->filterHaveProduct( $match_results, $haveProduct, $productAnd );
-				}
+                    if( $haveProduct ){
+                        $match_results = $this->filterHaveProduct( $match_results, $haveProduct, $productAnd );
+                    }
+                }
 			}
 		}
 
