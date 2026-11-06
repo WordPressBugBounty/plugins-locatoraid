@@ -7,6 +7,7 @@ class Front_View_LC_HC_MVC extends _HC_MVC
 			'partial' => '',
 			'layout'		=> 'map|list',
 			'form-after-map'	=> 0,
+            'form-hide' => 0,
 			'start'			=> '',
 
 			'map-start-address'	=> null,
@@ -308,12 +309,18 @@ class Front_View_LC_HC_MVC extends _HC_MVC
 			$widths['list'] = 4;
 		}
 
-		$formAfterMap = isset( $params['form-after-map'] ) && $params['form-after-map'] ? TRUE : FALSE;
+		$formAfterMap = isset( $params['form-after-map'] ) && $params['form-after-map'] ? true : false;
+        $formHide = isset($params['form-hide']) && $params['form-hide'] ? true : false;
 
 		$form_view = $this->app->make('/html/element')->tag('div')
 			->add( $form_view )
 			->add_attr('id', 'locatoraid-form-container')
 			;
+
+
+        if ($formHide) {
+            $form_view->add_attr('style', 'display: none;');
+        }
 
 		if( 'form' == $partial ){
 			return $form_view;

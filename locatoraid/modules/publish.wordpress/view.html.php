@@ -492,6 +492,26 @@ $tag = 'locatoraid';
 	</li>
 
 	<li class="hc-mt3">
+		<h3 class="hc-underline">form-hide</h3>
+		<ul class="hc-ml3">
+			<li>
+				<?php echo __('Hides the search form.', 'locatoraid'); ?>
+			</li>
+
+			<li>
+				<?php echo __('Default', 'locatoraid'); ?>: <em>0</em>
+			</li>
+
+			<li class="hc-p2">
+				<code class="hc-p2">
+				[<?php echo $tag; ?> form-hide="1"]
+				</code>
+			</li>
+		</ul>
+	</li>
+
+
+	<li class="hc-mt3">
 		<h3 class="hc-underline">partial</h3>
 		<ul class="hc-ml3">
 			<li>
