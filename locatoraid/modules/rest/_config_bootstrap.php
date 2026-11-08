@@ -32,9 +32,9 @@ class Rest_Plugin_LC_HC_MVC extends _HC_MVC
 
 		if( ! strlen($v) ){
 			// $salt .= 'abcdefghijklmnopqrstuvxyz';
-			// $salt = '123456789abcdef';
-			$salt = '123456789';
-			$len = 12;
+			$salt = '123456789abcdef';
+			// $salt = '123456789';
+			$len = 16;
 
 			$v = array();
 			$i = 1;
@@ -101,10 +101,16 @@ class Rest_Plugin_LC_HC_MVC extends _HC_MVC
 	{
 		$authCode = $request->get_header( 'X-WP-Locatoraid-AuthCode' );
 
-		if( $authCode && ($authCode == $this->authCode) ){
-			$ret = TRUE;
-			return $ret;
-		}
+        if ($authCode) {
+            if (function_exists('hash_equals')) {
+                $equals = hash_equals($this->authCode, $authCode);
+            } else {
+                $equals = ($authCode == $this->authCode) ? true : false;
+            }
+            if ($equals) {
+                return true;
+            }
+        }
 
 		$errors = 'not allowed';
 		$ret = new WP_Error( 'error', $errors, array('status' => 500) );

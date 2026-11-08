@@ -2,27 +2,37 @@
 
 $app = 'locatoraid-rest';
 
-if( isset($_POST[$app . '_submit']) ){
-	if( isset($_POST[$app]) ){
-		foreach( (array)$_POST[$app] as $key => $value ){
-			$option_name = $app . '_' . $key;
-			$value = sanitize_text_field( $value );
-			update_option( $option_name, $value );
-		}
-	}
+$current = array();
+$current['enabled'] = get_option($app . '_enabled', 1);
+$current['auth_code'] = get_option($app . '_auth_code', '');
 
-	if( ! isset($_POST[$app]['enabled']) ){
-		$k = $app . '_enabled';
-		$value = 0;
-		update_option( $k, $value );
+if (isset($_POST[$app . '_submit'])) {
+    if (isset($_POST[$app])) {
+        check_admin_referer($app . '-options', '_wpnonce');
+
+        $props = array('enabled', 'auth_code');
+        foreach ($props as $k) {
+            $value = null;
+
+            if ('enabled' === $k) {
+                $value = isset($_POST[$app][$k]) && $_POST[$app][$k] ? 1 : 0;
+            } else {
+                if (isset($_POST[$app][$k])) {
+                    $value = sanitize_text_field($_POST[$app][$k]);
+                }
+            }
+
+            if (null !== $value && $current[$k] !== $value) {
+                $option_name = $app . '_' . $k;
+                update_option($option_name, $value);
+                $current[$k] = $value;
+            }
+        }
 	}
 }
 
 // $this->initOption();
 
-$current = array();
-$current['enabled'] = get_option( $app . '_enabled', 1 );
-$current['auth_code'] = get_option( $app . '_auth_code', '' );
 
 // spaghetti starts here
 ?>
